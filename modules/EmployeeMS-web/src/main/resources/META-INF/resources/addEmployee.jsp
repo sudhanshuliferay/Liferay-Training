@@ -45,8 +45,6 @@
 
 <%} %>
 
-
-<portlet:resourceURL var="testAjaxResourceUrl"></portlet:resourceURL>
 <script type="text/javascript">
 function getTeams(){
     AUI().use('aui-io-request', function(A){

@@ -1,5 +1,6 @@
 package com.ems.util;
 
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.portlet.PortletRequest;
@@ -23,6 +24,14 @@ public class WebEMSUtil {
 	private static final Log LOG=LogFactoryUtil.getLog(WebEMSUtil.class);
 	
 	public static ThemeDisplay getThemeDisplay(PortletRequest portletRequest) {
+		/*
+		 * Enumeration<String> enumeration=portletRequest.getAttributeNames(); while
+		 * (enumeration.hasMoreElements()) { String string = (String)
+		 * enumeration.nextElement();
+		 * LOG.info("name : "+string+"value : "+portletRequest.getAttribute(string));
+		 * 
+		 * }
+		 */
 		if (Validator.isNotNull(portletRequest)) {
 			return (ThemeDisplay) portletRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		} else {

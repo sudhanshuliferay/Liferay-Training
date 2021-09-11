@@ -1,0 +1,4 @@
+Bundle-Name: IPCSenderPortlet
+Bundle-SymbolicName: com.sender
+Bundle-Version: 1.0.0
+Export-Package: com.sender.constants

@@ -9,6 +9,7 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
+import javax.portlet.PortletSession;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
@@ -38,20 +39,37 @@ import com.liferay.portal.kernel.util.Validator;
 /**
  * @author sudhanshu
  */
-@Component(immediate = true, property = { "com.liferay.portlet.display-category=category.sample",
-		"com.liferay.portlet.header-portlet-css=/css/main.css", "com.liferay.portlet.instanceable=true",
-		"javax.portlet.display-name=EmployeeMSWeb", "javax.portlet.init-param.template-path=/",
-		"javax.portlet.init-param.view-template=/view.jsp",
-		"javax.portlet.name=" + EmployeeMSWebPortletKeys.EMPLOYEEMSWEB,
-		"javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
+@Component(immediate = true, property = { 
+			"com.liferay.portlet.display-category=category.sample",
+			"com.liferay.portlet.render-weight=2",
+			"javax.portlet.portlet-mode=text/html;view,edit,help",
+			"javax.portlet.init-param.edit-template=/editConfiguration.jsp",
+			"javax.portlet.init-param.help-template=/help.jsp",
+			"com.liferay.portlet.header-portlet-css=/css/main.css", 
+			"com.liferay.portlet.instanceable=true",
+			"com.liferay.portlet.private-session-attributes=false",
+			"javax.portlet.display-name=EmployeeMSWeb", 
+			"javax.portlet.init-param.template-path=/",
+			"javax.portlet.init-param.view-template=/view.jsp",
+			"javax.portlet.name=" + EmployeeMSWebPortletKeys.EMPLOYEEMSWEB,
+			"javax.portlet.resource-bundle=content.Language",
+			"com.liferay.portlet.private-session-attributes=false",
+			"javax.portlet.security-role-ref=power-user,user" 
+		}, service = Portlet.class)
 public class EmployeeMSWebPortlet extends MVCPortlet {
 
 	private final Log LOG = LogFactoryUtil.getLog(EmployeeMSWebPortlet.class.getName());
-
+	
 	@Override
 	public void render(RenderRequest renderRequest, RenderResponse renderResponse)
 			throws IOException, PortletException {
+		
+		PortletSession portletSession=renderRequest.getPortletSession(false);
+		
+		if(Validator.isNotNull(portletSession)) {
+			portletSession.setAttribute("fromEmployee", "sudhanshu",PortletSession.APPLICATION_SCOPE);
+		}
+		
 		Employee employee = EmployeeLocalServiceUtil.getAllEmpByEmpIdDeptIdEname(1, "sudhanshu", 10);
 		if (Validator.isNotNull(employee)) {
 			LOG.info("Employee has been found..." + employee.getEname());
@@ -72,6 +90,7 @@ public class EmployeeMSWebPortlet extends MVCPortlet {
 		}
 		renderRequest.setAttribute("cur", cur);
 		renderRequest.setAttribute("delta", delta);
+
 		super.render(renderRequest, renderResponse);
 	}
 
@@ -143,7 +162,7 @@ public class EmployeeMSWebPortlet extends MVCPortlet {
 			LOG.error(e.getMessage(), e);
 		}
 	}
-	
+
 	@Override
 	protected boolean callResourceMethod(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
 			throws PortletException {
@@ -151,14 +170,14 @@ public class EmployeeMSWebPortlet extends MVCPortlet {
 		try {
 			PrintWriter out = resourceResponse.getWriter();
 			if (id.contains("getTeams")) {
-				JSONArray teamsJsonArr=WebEMSUtil.getTeams(-1,-1);
+				JSONArray teamsJsonArr = WebEMSUtil.getTeams(-1, -1);
 				out.write(teamsJsonArr.toJSONString());
-			}else if(id.contains("getDepartments")) {
-				JSONArray deptsJsonArr=WebEMSUtil.getDepartments(-1,-1);
+			} else if (id.contains("getDepartments")) {
+				JSONArray deptsJsonArr = WebEMSUtil.getDepartments(-1, -1);
 				out.write(deptsJsonArr.toJSONString());
 			}
 		} catch (IOException e) {
-			LOG.error(e.getMessage(),e);
+			LOG.error(e.getMessage(), e);
 		}
 
 		return super.callResourceMethod(resourceRequest, resourceResponse);
