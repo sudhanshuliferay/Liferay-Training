@@ -1,0 +1,16 @@
+Bundle-Name: Employee-Service-service
+Bundle-SymbolicName: com.employee.service
+Bundle-Version: 1.0.0
+Liferay-Require-SchemaVersion: 1.0.0
+Liferay-Service: true
+-dsannotations-options: inherit
+Export-Package: \
+	com.employee.exception,\
+	com.employee.model,\
+	com.employee.model.impl,\
+	com.employee.service,\
+	com.employee.service.base,\
+	com.employee.service.impl,\
+	com.employee.service.persistence,\
+	com.employee.service.persistence.impl,\
+	com.employee.service.persistence.impl.constants

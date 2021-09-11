@@ -1,0 +1,1 @@
+create index IX_E7014946 on FOO_Employee (empid, deptId, ename[$COLUMN_LENGTH:50$]);

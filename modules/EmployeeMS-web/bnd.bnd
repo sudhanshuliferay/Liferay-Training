@@ -1,0 +1,4 @@
+Bundle-Name: EmployeeMS-web
+Bundle-SymbolicName: com.ems
+Bundle-Version: 1.0.0
+Export-Package: com.ems.constants
