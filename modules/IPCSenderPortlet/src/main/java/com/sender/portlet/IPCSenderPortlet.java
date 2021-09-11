@@ -41,6 +41,7 @@ public class IPCSenderPortlet extends MVCPortlet {
 	public void render(RenderRequest renderRequest, RenderResponse renderResponse)
 			throws IOException, PortletException {
 		
+		
 		PortletSession portletSession=renderRequest.getPortletSession(false);
 		if(Validator.isNotNull(portletSession)) {
 			String fromEmployee=(String)portletSession.getAttribute("fromEmployee", PortletSession.APPLICATION_SCOPE);
