@@ -34,7 +34,7 @@
 			<aui:option value="<%=department.getDeptId() %>"><%=department.getDeptName()%></aui:option>
 		<%} %>
 	</aui:select>
-	<aui:select name="assignedTeamsId" >
+	<aui:select name="assignedTeamsId" id="assignedTeamsId" >
 		<aui:option value="10">10</aui:option>
 		<aui:option value="20">20</aui:option>
 		<aui:option value="30">30</aui:option>
@@ -45,20 +45,22 @@
 
 <%} %>
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 function getTeams(){
     AUI().use('aui-io-request', function(A){
         A.io.request('${getTeamsUrl}', {
                method: 'post',
-               data:{
-            	 <portlet:namespace/>deptName : $("#deptName").val()  
+               dataType:'json',
+               data: {
+                   <portlet:namespace />deptId: A.one("#<portlet:namespace/>deptName").val()
                },
                on: {
-                       success: function() {
-                        alert(this.get('getTeams'));
+                       success: function(data) {
+                    	   debugger;
+                        alert(this.get('responseData'));
                     }
               }
         });
     });
 }
-</script>
+</script> -->

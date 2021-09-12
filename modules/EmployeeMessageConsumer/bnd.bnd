@@ -1,0 +1,4 @@
+Bundle-Name: EmployeeMessageConsumer
+Bundle-SymbolicName: com.ems.consumer
+Bundle-Version: 1.0.0
+Export-Package: com.ems.constants

@@ -17,7 +17,6 @@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 <%@page import="com.liferay.portal.kernel.util.Validator"%>
 <%@page import="com.employee.model.Employee"%>
 <%@page import="java.util.List"%>
-
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />

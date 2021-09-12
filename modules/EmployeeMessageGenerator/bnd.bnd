@@ -1,0 +1,4 @@
+Bundle-Name: EmployeeMessageGenerator
+Bundle-SymbolicName: com.ems.generator
+Bundle-Version: 1.0.0
+Export-Package: com.ems.constants

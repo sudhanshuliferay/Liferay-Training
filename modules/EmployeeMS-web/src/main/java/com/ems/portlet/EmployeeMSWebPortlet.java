@@ -9,23 +9,23 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
-import javax.portlet.PortletSession;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import com.employee.exception.NoSuchDepartmentException;
 import com.employee.model.Department;
 import com.employee.model.Employee;
 import com.employee.service.DepartmentLocalServiceUtil;
-import com.employee.service.EmployeeLocalServiceUtil;
+import com.employee.service.EmployeeLocalService;
 import com.ems.constants.EmployeeMSWebPortletKeys;
 import com.ems.constants.WebParamConstants;
 import com.ems.util.WebEMSUtil;
-import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
+import com.liferay.counter.kernel.service.CounterLocalService;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
@@ -58,19 +58,18 @@ import com.liferay.portal.kernel.util.Validator;
 		}, service = Portlet.class)
 public class EmployeeMSWebPortlet extends MVCPortlet {
 
+	@Reference
+	private EmployeeLocalService employeeLocalService;
+	
+	@Reference
+	private CounterLocalService counterLocalService;
+	
 	private final Log LOG = LogFactoryUtil.getLog(EmployeeMSWebPortlet.class.getName());
 	
 	@Override
 	public void render(RenderRequest renderRequest, RenderResponse renderResponse)
 			throws IOException, PortletException {
-		
-		PortletSession portletSession=renderRequest.getPortletSession(false);
-		
-		if(Validator.isNotNull(portletSession)) {
-			portletSession.setAttribute("fromEmployee", "sudhanshu",PortletSession.APPLICATION_SCOPE);
-		}
-		
-		Employee employee = EmployeeLocalServiceUtil.getAllEmpByEmpIdDeptIdEname(1, "sudhanshu", 10);
+		Employee employee = employeeLocalService.getAllEmpByEmpIdDeptIdEname(1, "sudhanshu", 10);
 		if (Validator.isNotNull(employee)) {
 			LOG.info("Employee has been found..." + employee.getEname());
 		}
@@ -78,12 +77,12 @@ public class EmployeeMSWebPortlet extends MVCPortlet {
 		int delta = ParamUtil.getInteger(renderRequest, "delta", 5);
 		int startIndex = cur == 1 ? 0 : delta * (cur - 1);
 		int endIndex = cur == 1 ? delta
-				: delta > EmployeeLocalServiceUtil.getEmployeesCount() ? EmployeeLocalServiceUtil.getEmployeesCount()
+				: delta > employeeLocalService.getEmployeesCount() ? employeeLocalService.getEmployeesCount()
 						: startIndex + delta;
 		LOG.info("start : " + startIndex + " end : " + endIndex);
-		List<Employee> employees = EmployeeLocalServiceUtil.getEmployees(startIndex, endIndex);
+		List<Employee> employees = employeeLocalService.getEmployees(startIndex, endIndex);
 		if (Validator.isNotNull(employees) && !employees.isEmpty()) {
-			LOG.info("The count of employee is : " + EmployeeLocalServiceUtil.getEmployeesCount());
+			LOG.info("The count of employee is : " + employeeLocalService.getEmployeesCount());
 			renderRequest.setAttribute("employees", employees);
 		} else {
 			LOG.info("No employees found.");
@@ -109,15 +108,15 @@ public class EmployeeMSWebPortlet extends MVCPortlet {
 				if (Validator.isNull(department)) {
 					throw new NoSuchDepartmentException("No department found with dept id : " + deptId);
 				}
-				long empId = CounterLocalServiceUtil.increment(Employee.class.getName());
-				Employee employee = EmployeeLocalServiceUtil.createEmployee(empId);
+				long empId = counterLocalService.increment(Employee.class.getName());
+				Employee employee = employeeLocalService.createEmployee(empId);
 				employee.setEname(empName);
 				employee.setDeptId(department.getDeptId());
 				employee.setCreateDate(new Date());
 				employee.setUserId(themeDisplay.getUserId());
 				employee.setGroupId(themeDisplay.getScopeGroupId());
 				employee.setCompanyId(themeDisplay.getCompanyId());
-				EmployeeLocalServiceUtil.addEmployee(employee);
+				employeeLocalService.addEmployee(employee);
 				LOG.info("Employee is added successfully.");
 			} else {
 				LOG.info("please fill all the required fields.");
@@ -134,7 +133,7 @@ public class EmployeeMSWebPortlet extends MVCPortlet {
 		String deptName = ParamUtil.getString(actionRequest, WebParamConstants.DEPT_DEPTNAME, StringPool.BLANK);
 		ThemeDisplay themeDisplay = WebEMSUtil.getThemeDisplay(actionRequest);
 		if (Validator.isNotNull(deptName)) {
-			long deptId = CounterLocalServiceUtil.increment(Department.class.getName());
+			long deptId = counterLocalService.increment(Department.class.getName());
 			Department department = DepartmentLocalServiceUtil.createDepartment(deptId);
 			department.setDeptName(deptName);
 			if (Validator.isNotNull(themeDisplay)) {
@@ -155,7 +154,7 @@ public class EmployeeMSWebPortlet extends MVCPortlet {
 	public void deleteEmployee(ActionRequest actionRequest, ActionResponse actionResponse) {
 		long empId = ParamUtil.getLong(actionRequest, WebParamConstants.EMP_EMPID, 0);
 		try {
-			if (EmployeeLocalServiceUtil.deleteEmployee(empId) != null) {
+			if (employeeLocalService.deleteEmployee(empId) != null) {
 				LOG.info("Department is added successfull.");
 			}
 		} catch (PortalException e) {
@@ -168,13 +167,16 @@ public class EmployeeMSWebPortlet extends MVCPortlet {
 			throws PortletException {
 		String id = resourceRequest.getResourceID();
 		try {
+			System.out.println("resource method called with id : "+id);
 			PrintWriter out = resourceResponse.getWriter();
 			if (id.contains("getTeams")) {
 				JSONArray teamsJsonArr = WebEMSUtil.getTeams(-1, -1);
-				out.write(teamsJsonArr.toJSONString());
+				System.out.println("wrting json string...."+teamsJsonArr.toString());
+				out.write(teamsJsonArr.toString());
+				
 			} else if (id.contains("getDepartments")) {
 				JSONArray deptsJsonArr = WebEMSUtil.getDepartments(-1, -1);
-				out.write(deptsJsonArr.toJSONString());
+				out.write(deptsJsonArr.toString());
 			}
 		} catch (IOException e) {
 			LOG.error(e.getMessage(), e);

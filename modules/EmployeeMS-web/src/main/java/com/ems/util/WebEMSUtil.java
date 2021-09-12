@@ -5,8 +5,12 @@ import java.util.List;
 
 import javax.portlet.PortletRequest;
 
+import org.osgi.service.component.annotations.Reference;
+
 import com.employee.model.Department;
 import com.employee.service.DepartmentLocalServiceUtil;
+import com.employee.service.EmployeeLocalService;
+import com.employee.service.EmployeeLocalServiceUtil;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -20,7 +24,7 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
 public class WebEMSUtil {
-
+	
 	private static final Log LOG=LogFactoryUtil.getLog(WebEMSUtil.class);
 	
 	public static ThemeDisplay getThemeDisplay(PortletRequest portletRequest) {
@@ -32,6 +36,7 @@ public class WebEMSUtil {
 		 * 
 		 * }
 		 */
+		
 		if (Validator.isNotNull(portletRequest)) {
 			return (ThemeDisplay) portletRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		} else {
