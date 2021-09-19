@@ -8,6 +8,9 @@
 		<column type="long" name="empid" primary="true"/>
 		<column type="String" name="ename" />
 		<column type="long" name="deptId"/>
+		<column type="String" name="emailAddress"/>
+		<column type="String" name="hrName"/>
+		<column type="long" name="assignedTeamsId"/>
 		
 		<column type="long" name="userId" />
 		<column type="long" name="groupId" />

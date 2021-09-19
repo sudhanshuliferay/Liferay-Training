@@ -45,6 +45,9 @@ public class EmployeeWrapper
 		attributes.put("empid", getEmpid());
 		attributes.put("ename", getEname());
 		attributes.put("deptId", getDeptId());
+		attributes.put("emailAddress", getEmailAddress());
+		attributes.put("hrName", getHrName());
+		attributes.put("assignedTeamsId", getAssignedTeamsId());
 		attributes.put("userId", getUserId());
 		attributes.put("groupId", getGroupId());
 		attributes.put("companyId", getCompanyId());
@@ -72,6 +75,24 @@ public class EmployeeWrapper
 
 		if (deptId != null) {
 			setDeptId(deptId);
+		}
+
+		String emailAddress = (String)attributes.get("emailAddress");
+
+		if (emailAddress != null) {
+			setEmailAddress(emailAddress);
+		}
+
+		String hrName = (String)attributes.get("hrName");
+
+		if (hrName != null) {
+			setHrName(hrName);
+		}
+
+		Long assignedTeamsId = (Long)attributes.get("assignedTeamsId");
+
+		if (assignedTeamsId != null) {
+			setAssignedTeamsId(assignedTeamsId);
 		}
 
 		Long userId = (Long)attributes.get("userId");
@@ -106,6 +127,16 @@ public class EmployeeWrapper
 	}
 
 	/**
+	 * Returns the assigned teams ID of this employee.
+	 *
+	 * @return the assigned teams ID of this employee
+	 */
+	@Override
+	public long getAssignedTeamsId() {
+		return model.getAssignedTeamsId();
+	}
+
+	/**
 	 * Returns the company ID of this employee.
 	 *
 	 * @return the company ID of this employee
@@ -136,6 +167,16 @@ public class EmployeeWrapper
 	}
 
 	/**
+	 * Returns the email address of this employee.
+	 *
+	 * @return the email address of this employee
+	 */
+	@Override
+	public String getEmailAddress() {
+		return model.getEmailAddress();
+	}
+
+	/**
 	 * Returns the empid of this employee.
 	 *
 	 * @return the empid of this employee
@@ -163,6 +204,16 @@ public class EmployeeWrapper
 	@Override
 	public long getGroupId() {
 		return model.getGroupId();
+	}
+
+	/**
+	 * Returns the hr name of this employee.
+	 *
+	 * @return the hr name of this employee
+	 */
+	@Override
+	public String getHrName() {
+		return model.getHrName();
 	}
 
 	/**
@@ -211,6 +262,16 @@ public class EmployeeWrapper
 	}
 
 	/**
+	 * Sets the assigned teams ID of this employee.
+	 *
+	 * @param assignedTeamsId the assigned teams ID of this employee
+	 */
+	@Override
+	public void setAssignedTeamsId(long assignedTeamsId) {
+		model.setAssignedTeamsId(assignedTeamsId);
+	}
+
+	/**
 	 * Sets the company ID of this employee.
 	 *
 	 * @param companyId the company ID of this employee
@@ -241,6 +302,16 @@ public class EmployeeWrapper
 	}
 
 	/**
+	 * Sets the email address of this employee.
+	 *
+	 * @param emailAddress the email address of this employee
+	 */
+	@Override
+	public void setEmailAddress(String emailAddress) {
+		model.setEmailAddress(emailAddress);
+	}
+
+	/**
 	 * Sets the empid of this employee.
 	 *
 	 * @param empid the empid of this employee
@@ -268,6 +339,16 @@ public class EmployeeWrapper
 	@Override
 	public void setGroupId(long groupId) {
 		model.setGroupId(groupId);
+	}
+
+	/**
+	 * Sets the hr name of this employee.
+	 *
+	 * @param hrName the hr name of this employee
+	 */
+	@Override
+	public void setHrName(String hrName) {
+		model.setHrName(hrName);
 	}
 
 	/**

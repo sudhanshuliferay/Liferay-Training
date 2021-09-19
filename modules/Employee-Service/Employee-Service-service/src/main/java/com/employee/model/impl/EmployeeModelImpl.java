@@ -70,9 +70,11 @@ public class EmployeeModelImpl
 
 	public static final Object[][] TABLE_COLUMNS = {
 		{"empid", Types.BIGINT}, {"ename", Types.VARCHAR},
-		{"deptId", Types.BIGINT}, {"userId", Types.BIGINT},
-		{"groupId", Types.BIGINT}, {"companyId", Types.BIGINT},
-		{"createDate", Types.TIMESTAMP}, {"modifiedDate", Types.TIMESTAMP}
+		{"deptId", Types.BIGINT}, {"emailAddress", Types.VARCHAR},
+		{"hrName", Types.VARCHAR}, {"assignedTeamsId", Types.BIGINT},
+		{"userId", Types.BIGINT}, {"groupId", Types.BIGINT},
+		{"companyId", Types.BIGINT}, {"createDate", Types.TIMESTAMP},
+		{"modifiedDate", Types.TIMESTAMP}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -82,6 +84,9 @@ public class EmployeeModelImpl
 		TABLE_COLUMNS_MAP.put("empid", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("ename", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("deptId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("emailAddress", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("hrName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("assignedTeamsId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
@@ -90,7 +95,7 @@ public class EmployeeModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table FOO_Employee (empid LONG not null primary key,ename VARCHAR(50) null,deptId LONG,userId LONG,groupId LONG,companyId LONG,createDate DATE null,modifiedDate DATE null)";
+		"create table FOO_Employee (empid LONG not null primary key,ename VARCHAR(50) null,deptId LONG,emailAddress VARCHAR(75) null,hrName VARCHAR(75) null,assignedTeamsId LONG,userId LONG,groupId LONG,companyId LONG,createDate DATE null,modifiedDate DATE null)";
 
 	public static final String TABLE_SQL_DROP = "drop table FOO_Employee";
 
@@ -269,6 +274,18 @@ public class EmployeeModelImpl
 		attributeGetterFunctions.put("deptId", Employee::getDeptId);
 		attributeSetterBiConsumers.put(
 			"deptId", (BiConsumer<Employee, Long>)Employee::setDeptId);
+		attributeGetterFunctions.put("emailAddress", Employee::getEmailAddress);
+		attributeSetterBiConsumers.put(
+			"emailAddress",
+			(BiConsumer<Employee, String>)Employee::setEmailAddress);
+		attributeGetterFunctions.put("hrName", Employee::getHrName);
+		attributeSetterBiConsumers.put(
+			"hrName", (BiConsumer<Employee, String>)Employee::setHrName);
+		attributeGetterFunctions.put(
+			"assignedTeamsId", Employee::getAssignedTeamsId);
+		attributeSetterBiConsumers.put(
+			"assignedTeamsId",
+			(BiConsumer<Employee, Long>)Employee::setAssignedTeamsId);
 		attributeGetterFunctions.put("userId", Employee::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<Employee, Long>)Employee::setUserId);
@@ -364,6 +381,58 @@ public class EmployeeModelImpl
 	@Deprecated
 	public long getOriginalDeptId() {
 		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("deptId"));
+	}
+
+	@Override
+	public String getEmailAddress() {
+		if (_emailAddress == null) {
+			return "";
+		}
+		else {
+			return _emailAddress;
+		}
+	}
+
+	@Override
+	public void setEmailAddress(String emailAddress) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_emailAddress = emailAddress;
+	}
+
+	@Override
+	public String getHrName() {
+		if (_hrName == null) {
+			return "";
+		}
+		else {
+			return _hrName;
+		}
+	}
+
+	@Override
+	public void setHrName(String hrName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_hrName = hrName;
+	}
+
+	@Override
+	public long getAssignedTeamsId() {
+		return _assignedTeamsId;
+	}
+
+	@Override
+	public void setAssignedTeamsId(long assignedTeamsId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_assignedTeamsId = assignedTeamsId;
 	}
 
 	@Override
@@ -517,6 +586,9 @@ public class EmployeeModelImpl
 		employeeImpl.setEmpid(getEmpid());
 		employeeImpl.setEname(getEname());
 		employeeImpl.setDeptId(getDeptId());
+		employeeImpl.setEmailAddress(getEmailAddress());
+		employeeImpl.setHrName(getHrName());
+		employeeImpl.setAssignedTeamsId(getAssignedTeamsId());
 		employeeImpl.setUserId(getUserId());
 		employeeImpl.setGroupId(getGroupId());
 		employeeImpl.setCompanyId(getCompanyId());
@@ -612,6 +684,24 @@ public class EmployeeModelImpl
 		}
 
 		employeeCacheModel.deptId = getDeptId();
+
+		employeeCacheModel.emailAddress = getEmailAddress();
+
+		String emailAddress = employeeCacheModel.emailAddress;
+
+		if ((emailAddress != null) && (emailAddress.length() == 0)) {
+			employeeCacheModel.emailAddress = null;
+		}
+
+		employeeCacheModel.hrName = getHrName();
+
+		String hrName = employeeCacheModel.hrName;
+
+		if ((hrName != null) && (hrName.length() == 0)) {
+			employeeCacheModel.hrName = null;
+		}
+
+		employeeCacheModel.assignedTeamsId = getAssignedTeamsId();
 
 		employeeCacheModel.userId = getUserId();
 
@@ -713,6 +803,9 @@ public class EmployeeModelImpl
 	private long _empid;
 	private String _ename;
 	private long _deptId;
+	private String _emailAddress;
+	private String _hrName;
+	private long _assignedTeamsId;
 	private long _userId;
 	private long _groupId;
 	private long _companyId;
@@ -750,6 +843,9 @@ public class EmployeeModelImpl
 		_columnOriginalValues.put("empid", _empid);
 		_columnOriginalValues.put("ename", _ename);
 		_columnOriginalValues.put("deptId", _deptId);
+		_columnOriginalValues.put("emailAddress", _emailAddress);
+		_columnOriginalValues.put("hrName", _hrName);
+		_columnOriginalValues.put("assignedTeamsId", _assignedTeamsId);
 		_columnOriginalValues.put("userId", _userId);
 		_columnOriginalValues.put("groupId", _groupId);
 		_columnOriginalValues.put("companyId", _companyId);
@@ -774,15 +870,21 @@ public class EmployeeModelImpl
 
 		columnBitmasks.put("deptId", 4L);
 
-		columnBitmasks.put("userId", 8L);
+		columnBitmasks.put("emailAddress", 8L);
 
-		columnBitmasks.put("groupId", 16L);
+		columnBitmasks.put("hrName", 16L);
 
-		columnBitmasks.put("companyId", 32L);
+		columnBitmasks.put("assignedTeamsId", 32L);
 
-		columnBitmasks.put("createDate", 64L);
+		columnBitmasks.put("userId", 64L);
 
-		columnBitmasks.put("modifiedDate", 128L);
+		columnBitmasks.put("groupId", 128L);
+
+		columnBitmasks.put("companyId", 256L);
+
+		columnBitmasks.put("createDate", 512L);
+
+		columnBitmasks.put("modifiedDate", 1024L);
 
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}

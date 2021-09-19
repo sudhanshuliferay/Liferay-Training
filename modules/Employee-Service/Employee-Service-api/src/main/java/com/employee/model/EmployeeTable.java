@@ -38,6 +38,12 @@ public class EmployeeTable extends BaseTable<EmployeeTable> {
 		"ename", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
 	public final Column<EmployeeTable, Long> deptId = createColumn(
 		"deptId", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
+	public final Column<EmployeeTable, String> emailAddress = createColumn(
+		"emailAddress", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
+	public final Column<EmployeeTable, String> hrName = createColumn(
+		"hrName", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
+	public final Column<EmployeeTable, Long> assignedTeamsId = createColumn(
+		"assignedTeamsId", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
 	public final Column<EmployeeTable, Long> userId = createColumn(
 		"userId", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
 	public final Column<EmployeeTable, Long> groupId = createColumn(

@@ -100,6 +100,8 @@ public class EmployeeMSWebPortlet extends MVCPortlet {
 		long deptId = ParamUtil.getLong(actionRequest, WebParamConstants.DEPT_DEPTNAME, 0);
 		String empName = ParamUtil.getString(actionRequest, WebParamConstants.EMP_ENAME, StringPool.BLANK);
 		String emailAddress = ParamUtil.getString(actionRequest, WebParamConstants.EMP_EMAILADDRESS, StringPool.BLANK);
+		long empId=ParamUtil.getLong(actionRequest, WebParamConstants.EMP_EMPID,0);
+		String hrName=ParamUtil.getString(actionRequest, WebParamConstants.EMP_HRNAME,StringPool.BLANK);
 		long assignedTeamsId = ParamUtil.getLong(actionRequest, WebParamConstants.EMP_ASSIGNEDTEAMSID, 0);
 		ThemeDisplay themeDisplay = WebEMSUtil.getThemeDisplay(actionRequest);
 		try {
@@ -108,9 +110,17 @@ public class EmployeeMSWebPortlet extends MVCPortlet {
 				if (Validator.isNull(department)) {
 					throw new NoSuchDepartmentException("No department found with dept id : " + deptId);
 				}
-				long empId = counterLocalService.increment(Employee.class.getName());
-				Employee employee = employeeLocalService.createEmployee(empId);
+				Employee employee = null;
+				if(empId==0) {
+					empId = counterLocalService.increment(Employee.class.getName());
+					employee = employeeLocalService.createEmployee(empId);
+				}else {
+					employee=employeeLocalService.fetchEmployee(empId);
+				}
 				employee.setEname(empName);
+				employee.setEmailAddress(emailAddress);
+				employee.setAssignedTeamsId(assignedTeamsId);
+				employee.setHrName(hrName);
 				employee.setDeptId(department.getDeptId());
 				employee.setCreateDate(new Date());
 				employee.setUserId(themeDisplay.getUserId());

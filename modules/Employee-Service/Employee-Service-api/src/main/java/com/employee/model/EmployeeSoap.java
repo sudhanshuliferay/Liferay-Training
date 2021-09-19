@@ -36,6 +36,9 @@ public class EmployeeSoap implements Serializable {
 		soapModel.setEmpid(model.getEmpid());
 		soapModel.setEname(model.getEname());
 		soapModel.setDeptId(model.getDeptId());
+		soapModel.setEmailAddress(model.getEmailAddress());
+		soapModel.setHrName(model.getHrName());
+		soapModel.setAssignedTeamsId(model.getAssignedTeamsId());
 		soapModel.setUserId(model.getUserId());
 		soapModel.setGroupId(model.getGroupId());
 		soapModel.setCompanyId(model.getCompanyId());
@@ -118,6 +121,30 @@ public class EmployeeSoap implements Serializable {
 		_deptId = deptId;
 	}
 
+	public String getEmailAddress() {
+		return _emailAddress;
+	}
+
+	public void setEmailAddress(String emailAddress) {
+		_emailAddress = emailAddress;
+	}
+
+	public String getHrName() {
+		return _hrName;
+	}
+
+	public void setHrName(String hrName) {
+		_hrName = hrName;
+	}
+
+	public long getAssignedTeamsId() {
+		return _assignedTeamsId;
+	}
+
+	public void setAssignedTeamsId(long assignedTeamsId) {
+		_assignedTeamsId = assignedTeamsId;
+	}
+
 	public long getUserId() {
 		return _userId;
 	}
@@ -161,6 +188,9 @@ public class EmployeeSoap implements Serializable {
 	private long _empid;
 	private String _ename;
 	private long _deptId;
+	private String _emailAddress;
+	private String _hrName;
+	private long _assignedTeamsId;
 	private long _userId;
 	private long _groupId;
 	private long _companyId;

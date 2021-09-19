@@ -1,8 +1,3 @@
-<%@page import="com.liferay.portal.kernel.portlet.LiferayPortletMode"%>
-<%@page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
-<%@page import="javax.portlet.PortletURL"%>
-<%@page import="com.employee.service.DepartmentLocalServiceUtil"%>
-<%@page import="com.employee.model.Department"%>
 <%@ include file="init.jsp"%>
 
 <%
@@ -17,6 +12,11 @@
 		<h1>You Don't have any department you should first <strong><em><a href="<%=renderUrl.toString()%>">Create Department</a></em></strong>.
 		<%
 	}else{
+		long empId=ParamUtil.getLong(request, "empId",0);
+		Employee employee=null;
+		if(empId>0){
+			employee=EmployeeLocalServiceUtil.fetchEmployee(empId);
+		}
 %>
 
 <portlet:actionURL name="saveEmployee" var="saveEmployeeURL" />
@@ -24,15 +24,26 @@
 <portlet:resourceURL var="getTeamsUrl" id="getTeams" />
 
 <aui:form name="saveEmployeeFrm" action="${saveEmployeeURL}" method="post">
-
-	<aui:input name="ename" type="text" />
-	<aui:input name="emailAddress" type="text" />
-	<aui:input name="hrName" type="text" />
+	<aui:input name="empId" type="hidden" value="<%=String.valueOf(empId) %>"/>
+	<aui:input name="ename" type="text" value="<%=WebEMSUtil.getValue(employee, "ename") %>"/>
+	<aui:input name="emailAddress" type="text" value="<%=WebEMSUtil.getValue(employee, "emailAddress") %>"/>
+	<aui:input name="hrName" type="text" value="<%=WebEMSUtil.getValue(employee, "hrName") %>"/>
 	<aui:select name="deptName" id="deptName" onChange="getTeams()">
 		<aui:option value="0">--Select department name--</aui:option>
-		<%for(Department department:departments) {%>
-			<aui:option value="<%=department.getDeptId() %>"><%=department.getDeptName()%></aui:option>
-		<%} %>
+		<%for(Department department:departments) {
+			String empDeptId=WebEMSUtil.getValue(employee, "deptName");
+			boolean isSelected=empDeptId.equalsIgnoreCase(StringPool.BLANK)?false:Long.valueOf(empDeptId)==department.getDeptId();
+			if(isSelected){
+		%>
+			<aui:option value="<%=String.valueOf(department.getDeptId()) %>" selected="true">
+			<%=department.getDeptName()%></aui:option>
+		<%}else{
+			%>
+			<aui:option value="<%=String.valueOf(department.getDeptId()) %>" >
+			<%=department.getDeptName()%></aui:option>
+			<%
+			}
+		} %>
 	</aui:select>
 	<aui:select name="assignedTeamsId" id="assignedTeamsId" >
 		<aui:option value="10">10</aui:option>

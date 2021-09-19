@@ -62,7 +62,7 @@ public class EmployeeCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(17);
+		StringBundler sb = new StringBundler(23);
 
 		sb.append("{empid=");
 		sb.append(empid);
@@ -70,6 +70,12 @@ public class EmployeeCacheModel
 		sb.append(ename);
 		sb.append(", deptId=");
 		sb.append(deptId);
+		sb.append(", emailAddress=");
+		sb.append(emailAddress);
+		sb.append(", hrName=");
+		sb.append(hrName);
+		sb.append(", assignedTeamsId=");
+		sb.append(assignedTeamsId);
 		sb.append(", userId=");
 		sb.append(userId);
 		sb.append(", groupId=");
@@ -99,6 +105,22 @@ public class EmployeeCacheModel
 		}
 
 		employeeImpl.setDeptId(deptId);
+
+		if (emailAddress == null) {
+			employeeImpl.setEmailAddress("");
+		}
+		else {
+			employeeImpl.setEmailAddress(emailAddress);
+		}
+
+		if (hrName == null) {
+			employeeImpl.setHrName("");
+		}
+		else {
+			employeeImpl.setHrName(hrName);
+		}
+
+		employeeImpl.setAssignedTeamsId(assignedTeamsId);
 		employeeImpl.setUserId(userId);
 		employeeImpl.setGroupId(groupId);
 		employeeImpl.setCompanyId(companyId);
@@ -128,6 +150,10 @@ public class EmployeeCacheModel
 		ename = objectInput.readUTF();
 
 		deptId = objectInput.readLong();
+		emailAddress = objectInput.readUTF();
+		hrName = objectInput.readUTF();
+
+		assignedTeamsId = objectInput.readLong();
 
 		userId = objectInput.readLong();
 
@@ -151,6 +177,22 @@ public class EmployeeCacheModel
 
 		objectOutput.writeLong(deptId);
 
+		if (emailAddress == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(emailAddress);
+		}
+
+		if (hrName == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(hrName);
+		}
+
+		objectOutput.writeLong(assignedTeamsId);
+
 		objectOutput.writeLong(userId);
 
 		objectOutput.writeLong(groupId);
@@ -163,6 +205,9 @@ public class EmployeeCacheModel
 	public long empid;
 	public String ename;
 	public long deptId;
+	public String emailAddress;
+	public String hrName;
+	public long assignedTeamsId;
 	public long userId;
 	public long groupId;
 	public long companyId;

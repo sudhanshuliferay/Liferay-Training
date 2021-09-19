@@ -22,7 +22,7 @@
 %>
 
 <portlet:renderURL var="addEmployeeVar">
-	<portlet:param name="mvcPath" value="/addEmployee.jsp"/>
+	<portlet:param name="mvcPath" value="/editEmployee.jsp"/>
 </portlet:renderURL>
 
 <portlet:renderURL var="addDepartmentVar">
@@ -54,7 +54,7 @@
 			      	<liferay-ui:search-container-column-text property="ename" name="#Ename" orderable="true" orderableProperty="ename" />
 			      	
 			      	<liferay-ui:search-container-column-text property="deptId" name="#Dept Id" orderable="true" orderableProperty="deptId" />
-			      
+			      	<liferay-ui:search-container-column-jsp align="right" path="/actions.jsp" />
 			  </liferay-ui:search-container-row>
 			  <liferay-ui:search-iterator markupView="lexicon" displayStyle="list"/>
 		</liferay-ui:search-container>

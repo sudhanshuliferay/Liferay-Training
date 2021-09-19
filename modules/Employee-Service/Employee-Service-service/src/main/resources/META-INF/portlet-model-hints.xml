@@ -17,6 +17,9 @@
 			<validator name="required" />
 		</field>
 		<field name="deptId" type="long" />
+		<field name="emailAddress" type="String" />
+		<field name="hrName" type="String" />
+		<field name="assignedTeamsId" type="long" />
 		<field name="userId" type="long" />
 		<field name="groupId" type="long" />
 		<field name="companyId" type="long" />

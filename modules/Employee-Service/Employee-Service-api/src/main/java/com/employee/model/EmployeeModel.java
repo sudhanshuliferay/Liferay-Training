@@ -100,6 +100,50 @@ public interface EmployeeModel extends BaseModel<Employee>, ShardedModel {
 	public void setDeptId(long deptId);
 
 	/**
+	 * Returns the email address of this employee.
+	 *
+	 * @return the email address of this employee
+	 */
+	@AutoEscape
+	public String getEmailAddress();
+
+	/**
+	 * Sets the email address of this employee.
+	 *
+	 * @param emailAddress the email address of this employee
+	 */
+	public void setEmailAddress(String emailAddress);
+
+	/**
+	 * Returns the hr name of this employee.
+	 *
+	 * @return the hr name of this employee
+	 */
+	@AutoEscape
+	public String getHrName();
+
+	/**
+	 * Sets the hr name of this employee.
+	 *
+	 * @param hrName the hr name of this employee
+	 */
+	public void setHrName(String hrName);
+
+	/**
+	 * Returns the assigned teams ID of this employee.
+	 *
+	 * @return the assigned teams ID of this employee
+	 */
+	public long getAssignedTeamsId();
+
+	/**
+	 * Sets the assigned teams ID of this employee.
+	 *
+	 * @param assignedTeamsId the assigned teams ID of this employee
+	 */
+	public void setAssignedTeamsId(long assignedTeamsId);
+
+	/**
 	 * Returns the user ID of this employee.
 	 *
 	 * @return the user ID of this employee
