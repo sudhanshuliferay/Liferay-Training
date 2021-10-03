@@ -1,0 +1,4 @@
+Bundle-Name: DQUserPortlet
+Bundle-SymbolicName: com.dq
+Bundle-Version: 1.0.0
+Export-Package: com.dq.constants

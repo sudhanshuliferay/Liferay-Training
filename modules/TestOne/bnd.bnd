@@ -1,5 +1,0 @@
-Bundle-Name: TestOne
-Bundle-SymbolicName: test.portlet
-Bundle-Version: 1.0.0
-Export-Package: test.portlet.constants
-Import-Package: com.employee.model.impl

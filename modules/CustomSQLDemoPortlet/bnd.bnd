@@ -1,0 +1,4 @@
+Bundle-Name: CustomSQLDemoPortlet
+Bundle-SymbolicName: com.customsql.demo
+Bundle-Version: 1.0.0
+Export-Package: com.customsql.demo.constants

@@ -1,0 +1,16 @@
+Bundle-Name: CustomSQLServiceDemo-service
+Bundle-SymbolicName: com.demo.customsql.service
+Bundle-Version: 1.0.0
+Liferay-Require-SchemaVersion: 1.0.0
+Liferay-Service: true
+-dsannotations-options: inherit
+Export-Package: \
+	com.demo.customsql.exception,\
+	com.demo.customsql.model,\
+	com.demo.customsql.model.impl,\
+	com.demo.customsql.service,\
+	com.demo.customsql.service.base,\
+	com.demo.customsql.service.impl,\
+	com.demo.customsql.service.persistence,\
+	com.demo.customsql.service.persistence.impl,\
+	com.demo.customsql.service.persistence.impl.constants

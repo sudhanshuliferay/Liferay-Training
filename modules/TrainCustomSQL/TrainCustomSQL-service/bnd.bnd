@@ -1,0 +1,17 @@
+Bundle-Name: TrainCustomSQL-service
+Bundle-SymbolicName: com.training.customsql.service
+Bundle-Version: 1.0.0
+Liferay-Require-SchemaVersion: 1.0.0
+Liferay-Service: true
+-dsannotations-options: inherit
+Export-Package: \
+	com.training.customsql.exception,\
+	com.training.customsql.model,\
+	com.training.customsql.model.impl,\
+	com.training.customsql.service,\
+	com.training.customsql.service.base,\
+	com.training.customsql.service.http,\
+	com.training.customsql.service.impl,\
+	com.training.customsql.service.persistence,\
+	com.training.customsql.service.persistence.impl,\
+	com.training.customsql.service.persistence.impl.constants

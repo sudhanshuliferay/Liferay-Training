@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<custom-sql>
+    <sql id="com.training.customsql.service.persistence.impl.TrainingFinderImpl.findTrainingByName">
+    <![CDATA[ select * from csql_training c where trainingName like ? ]]>
+    </sql>
+</custom-sql>

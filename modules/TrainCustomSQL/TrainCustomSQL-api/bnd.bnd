@@ -1,0 +1,10 @@
+Bundle-Name: TrainCustomSQL-api
+Bundle-SymbolicName: com.training.customsql.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.training.customsql.exception,\
+	com.training.customsql.model,\
+	com.training.customsql.service,\
+	com.training.customsql.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../TrainCustomSQL-service/service.xml

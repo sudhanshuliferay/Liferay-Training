@@ -1,0 +1,11 @@
+dependencies {
+	compile project(":modules:TrainCustomSQL:TrainCustomSQL-api")
+
+	compileOnly group: "com.liferay.portal", name: "release.portal.api"
+}
+
+buildService {
+	apiDir = "../TrainCustomSQL-api/src/main/java"
+}
+
+group = "com.training.customsql"

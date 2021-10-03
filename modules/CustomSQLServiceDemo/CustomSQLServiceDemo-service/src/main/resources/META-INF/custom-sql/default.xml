@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<custom-sql>
+    <sql id="com.demo.customsql.service.persistence.CustomSQLTestFinder.findByScreenNameLikeUser">
+    	<![CDATA[select * from foo_customsqltest fc where userName=?]]>
+    </sql>
+</custom-sql>

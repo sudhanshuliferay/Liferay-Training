@@ -1,0 +1,13 @@
+dependencies {
+	compile project(":modules:CustomSQLServiceDemo:CustomSQLServiceDemo-api")
+
+	compileOnly group: "com.liferay.portal", name: "release.portal.api"
+	compileOnly group: 'com.liferay.portal', name: 'com.liferay.portal.impl'
+	
+}
+
+buildService {
+	apiDir = "../CustomSQLServiceDemo-api/src/main/java"
+}
+
+group = "com.demo.customsql"
