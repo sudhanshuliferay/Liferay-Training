@@ -24,16 +24,17 @@ public class TrainingFinderImpl extends TrainingFinderBaseImpl implements Traini
 		try {
 			session=openSession();
 			
-			String userSQlQuery=customSQL.get(getClass(), TrainingFinder.class.getName()+".findTrainingByName");
-			SQLQuery query=session.createSQLQuery(userSQlQuery);
+			String userSQlQuery=customSQL.get(getClass(), TrainingFinderImpl.class.getName()+".findTrainingByName");
 			System.out.println("sql Qiery is : "+userSQlQuery);
+			SQLQuery query=session.createSQLQuery(userSQlQuery);
 			query.setCacheable(false);
 			query.addEntity("c", TrainingImpl.class);
 			
 			QueryPos queryPos=QueryPos.getInstance(query);
 			queryPos.add(trainingName);
-			
-			return (List<Training>)query.list();
+			List<Training> trainingList=(List<Training>)query.list();
+			System.out.println("returned list is "+trainingList);
+			return trainingList;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
