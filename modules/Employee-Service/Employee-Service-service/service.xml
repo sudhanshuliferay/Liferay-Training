@@ -4,7 +4,7 @@
 <service-builder dependency-injector="ds" package-path="com.employee">
 	<namespace>FOO</namespace>
 	
-	<entity name="Employee" local-service="true" remote-service="false">
+	<entity name="Employee" local-service="true" remote-service="true">
 		<column type="long" name="empid" primary="true"/>
 		<column type="String" name="ename" />
 		<column type="long" name="deptId"/>

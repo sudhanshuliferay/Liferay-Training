@@ -1,0 +1,4 @@
+Bundle-Name: ClientWebServices
+Bundle-SymbolicName: om.clientwebservice.call
+Bundle-Version: 1.0.0
+Export-Package: om.clientwebservice.call.api

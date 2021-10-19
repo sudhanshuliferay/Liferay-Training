@@ -1,0 +1,11 @@
+Bundle-Name: SampleRestAPIUtil
+Bundle-SymbolicName: com.sample
+Bundle-Version: 1.0.0
+#-includeresource: \
+#@jackson-core-2.13.0.jar,\
+#@jackson-databind-2.13.0.jar
+
+
+Export-Package: \
+	com.sample.api,\
+	com.sample.api.domain

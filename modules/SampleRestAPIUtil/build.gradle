@@ -1,0 +1,6 @@
+dependencies {
+	compileOnly group: "com.liferay.portal", name: "release.portal.api"
+	compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.12'
+	//compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.13.0'
+	//compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.0'
+}

@@ -1,0 +1,4 @@
+Bundle-Name: EMSModelListener-Hook
+Bundle-SymbolicName: com.ems.model.hook
+Bundle-Version: 1.0.0
+Export-Package: com.ems.model.hook.api

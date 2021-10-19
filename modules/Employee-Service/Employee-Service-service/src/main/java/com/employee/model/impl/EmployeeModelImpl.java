@@ -16,12 +16,14 @@ package com.employee.model.impl;
 
 import com.employee.model.Employee;
 import com.employee.model.EmployeeModel;
+import com.employee.model.EmployeeSoap;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.User;
@@ -38,10 +40,12 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.BiConsumer;
@@ -58,6 +62,7 @@ import java.util.function.Function;
  * @see EmployeeImpl
  * @generated
  */
+@JSON(strict = true)
 public class EmployeeModelImpl
 	extends BaseModelImpl<Employee> implements EmployeeModel {
 
@@ -140,6 +145,58 @@ public class EmployeeModelImpl
 	 */
 	@Deprecated
 	public static void setFinderCacheEnabled(boolean finderCacheEnabled) {
+	}
+
+	/**
+	 * Converts the soap model instance into a normal model instance.
+	 *
+	 * @param soapModel the soap model instance to convert
+	 * @return the normal model instance
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static Employee toModel(EmployeeSoap soapModel) {
+		if (soapModel == null) {
+			return null;
+		}
+
+		Employee model = new EmployeeImpl();
+
+		model.setEmpid(soapModel.getEmpid());
+		model.setEname(soapModel.getEname());
+		model.setDeptId(soapModel.getDeptId());
+		model.setEmailAddress(soapModel.getEmailAddress());
+		model.setHrName(soapModel.getHrName());
+		model.setAssignedTeamsId(soapModel.getAssignedTeamsId());
+		model.setUserId(soapModel.getUserId());
+		model.setGroupId(soapModel.getGroupId());
+		model.setCompanyId(soapModel.getCompanyId());
+		model.setCreateDate(soapModel.getCreateDate());
+		model.setModifiedDate(soapModel.getModifiedDate());
+
+		return model;
+	}
+
+	/**
+	 * Converts the soap model instances into normal model instances.
+	 *
+	 * @param soapModels the soap model instances to convert
+	 * @return the normal model instances
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static List<Employee> toModels(EmployeeSoap[] soapModels) {
+		if (soapModels == null) {
+			return null;
+		}
+
+		List<Employee> models = new ArrayList<Employee>(soapModels.length);
+
+		for (EmployeeSoap soapModel : soapModels) {
+			models.add(toModel(soapModel));
+		}
+
+		return models;
 	}
 
 	public EmployeeModelImpl() {
@@ -309,6 +366,7 @@ public class EmployeeModelImpl
 			(Map)attributeSetterBiConsumers);
 	}
 
+	@JSON
 	@Override
 	public long getEmpid() {
 		return _empid;
@@ -332,6 +390,7 @@ public class EmployeeModelImpl
 		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("empid"));
 	}
 
+	@JSON
 	@Override
 	public String getEname() {
 		if (_ename == null) {
@@ -360,6 +419,7 @@ public class EmployeeModelImpl
 		return getColumnOriginalValue("ename");
 	}
 
+	@JSON
 	@Override
 	public long getDeptId() {
 		return _deptId;
@@ -383,6 +443,7 @@ public class EmployeeModelImpl
 		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("deptId"));
 	}
 
+	@JSON
 	@Override
 	public String getEmailAddress() {
 		if (_emailAddress == null) {
@@ -402,6 +463,7 @@ public class EmployeeModelImpl
 		_emailAddress = emailAddress;
 	}
 
+	@JSON
 	@Override
 	public String getHrName() {
 		if (_hrName == null) {
@@ -421,6 +483,7 @@ public class EmployeeModelImpl
 		_hrName = hrName;
 	}
 
+	@JSON
 	@Override
 	public long getAssignedTeamsId() {
 		return _assignedTeamsId;
@@ -435,6 +498,7 @@ public class EmployeeModelImpl
 		_assignedTeamsId = assignedTeamsId;
 	}
 
+	@JSON
 	@Override
 	public long getUserId() {
 		return _userId;
@@ -465,6 +529,7 @@ public class EmployeeModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	@JSON
 	@Override
 	public long getGroupId() {
 		return _groupId;
@@ -479,6 +544,7 @@ public class EmployeeModelImpl
 		_groupId = groupId;
 	}
 
+	@JSON
 	@Override
 	public long getCompanyId() {
 		return _companyId;
@@ -493,6 +559,7 @@ public class EmployeeModelImpl
 		_companyId = companyId;
 	}
 
+	@JSON
 	@Override
 	public Date getCreateDate() {
 		return _createDate;
@@ -507,6 +574,7 @@ public class EmployeeModelImpl
 		_createDate = createDate;
 	}
 
+	@JSON
 	@Override
 	public Date getModifiedDate() {
 		return _modifiedDate;

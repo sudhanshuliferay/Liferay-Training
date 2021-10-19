@@ -29,6 +29,12 @@
 	<portlet:param name="mvcPath" value="/editDepartment.jsp"/>
 </portlet:renderURL>
 
+<portlet:renderURL var="getAllSampleUsers">
+	<portlet:param name="isRestCall" value="true"/>
+</portlet:renderURL>
+
+
+
 <c:choose>
 	<c:when test="<%=themeDisplay.isSignedIn() %>">
 		<%
@@ -38,8 +44,9 @@
 				});
 				%>
 					<aui:button-row>
-						<aui:button href="${addEmployeeVar}" cssClass="btn-primary" value="Add Employee"/>
+						<aui:button href="${addEmployeeVar}" cssClass="btn-primary" value="add-employee"/>
 						<aui:button href="${addDepartmentVar}" cssClass="btn-primary" value="Add Department"/>
+						<aui:button href="${getAllSampleUsers}" cssClass="btn-primary" value="Load All Sample Users"/>
 					</aui:button-row>
 		<%if(employees!=null && !employees.isEmpty()){ %>
 			<liferay-ui:search-container delta="5" deltaParam="delta" curParam="cur" var="empSearchContainer" emptyResultsMessage="">

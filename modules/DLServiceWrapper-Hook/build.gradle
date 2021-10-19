@@ -1,0 +1,5 @@
+dependencies {
+	compileOnly group: "com.liferay.portal", name: "release.portal.api"
+	compileOnly project(":modules:Employee-Service:Employee-Service-api")
+	compileOnly project(":modules:Employee-Service:Employee-Service-service")
+}

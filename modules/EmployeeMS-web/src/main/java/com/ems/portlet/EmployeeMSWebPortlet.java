@@ -2,6 +2,7 @@ package com.ems.portlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
+import javax.servlet.http.HttpServletRequest;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -20,6 +22,7 @@ import org.osgi.service.component.annotations.Reference;
 import com.employee.exception.NoSuchDepartmentException;
 import com.employee.model.Department;
 import com.employee.model.Employee;
+import com.employee.model.impl.EmployeeImpl;
 import com.employee.service.DepartmentLocalServiceUtil;
 import com.employee.service.EmployeeLocalService;
 import com.ems.constants.EmployeeMSWebPortletKeys;
@@ -34,61 +37,86 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.sample.api.SampleRestAPIUtil;
+import com.sample.api.domain.User;
 
 /**
  * @author sudhanshu
  */
-@Component(immediate = true, property = { 
-			"com.liferay.portlet.display-category=category.sample",
-			"com.liferay.portlet.render-weight=2",
-			"javax.portlet.portlet-mode=text/html;view,edit,help",
-			"javax.portlet.init-param.edit-template=/editConfiguration.jsp",
-			"javax.portlet.init-param.help-template=/help.jsp",
-			"com.liferay.portlet.header-portlet-css=/css/main.css", 
-			"com.liferay.portlet.instanceable=true",
-			"com.liferay.portlet.private-session-attributes=false",
-			"javax.portlet.display-name=EmployeeMSWeb", 
-			"javax.portlet.init-param.template-path=/",
-			"javax.portlet.init-param.view-template=/view.jsp",
-			"javax.portlet.name=" + EmployeeMSWebPortletKeys.EMPLOYEEMSWEB,
-			"javax.portlet.resource-bundle=content.Language",
-			"com.liferay.portlet.private-session-attributes=false",
-			"javax.portlet.security-role-ref=power-user,user" 
-		}, service = Portlet.class)
+@Component(immediate = true, property = { "com.liferay.portlet.display-category=category.sample",
+		"com.liferay.portlet.render-weight=2", "javax.portlet.portlet-mode=text/html;view,edit,help",
+		"javax.portlet.init-param.edit-template=/editConfiguration.jsp",
+		"javax.portlet.init-param.help-template=/help.jsp", "com.liferay.portlet.header-portlet-css=/css/main.css",
+		"com.liferay.portlet.instanceable=true", "com.liferay.portlet.private-session-attributes=false",
+		"javax.portlet.display-name=EmployeeMSWeb", "javax.portlet.init-param.template-path=/",
+		"javax.portlet.init-param.view-template=/view.jsp",
+		"javax.portlet.name=" + EmployeeMSWebPortletKeys.EMPLOYEEMSWEB,
+		"javax.portlet.resource-bundle=content.Language", "com.liferay.portlet.private-session-attributes=false",
+		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
 public class EmployeeMSWebPortlet extends MVCPortlet {
 
 	@Reference
 	private EmployeeLocalService employeeLocalService;
-	
+
 	@Reference
 	private CounterLocalService counterLocalService;
-	
+
 	private final Log LOG = LogFactoryUtil.getLog(EmployeeMSWebPortlet.class.getName());
-	
+
 	@Override
 	public void render(RenderRequest renderRequest, RenderResponse renderResponse)
 			throws IOException, PortletException {
-		Employee employee = employeeLocalService.getAllEmpByEmpIdDeptIdEname(1, "sudhanshu", 10);
-		if (Validator.isNotNull(employee)) {
-			LOG.info("Employee has been found..." + employee.getEname());
-		}
-		int cur = ParamUtil.getInteger(renderRequest, "cur", 1);
-		int delta = ParamUtil.getInteger(renderRequest, "delta", 5);
-		int startIndex = cur == 1 ? 0 : delta * (cur - 1);
-		int endIndex = cur == 1 ? delta
-				: delta > employeeLocalService.getEmployeesCount() ? employeeLocalService.getEmployeesCount()
-						: startIndex + delta;
-		LOG.info("start : " + startIndex + " end : " + endIndex);
-		List<Employee> employees = employeeLocalService.getEmployees(startIndex, endIndex);
-		if (Validator.isNotNull(employees) && !employees.isEmpty()) {
-			LOG.info("The count of employee is : " + employeeLocalService.getEmployeesCount());
-			renderRequest.setAttribute("employees", employees);
+		boolean isRestCall = ParamUtil.getBoolean(renderRequest, "isRestCall");
+
+		if (isRestCall) {
+			List<User> sampleUsers;
+			LOG.info("restVCall is True .........");
+			try {
+				sampleUsers = SampleRestAPIUtil.getAllSampleUsers();
+				if(!sampleUsers.isEmpty()) {
+					List<Employee> sampleEmployeeList=new ArrayList<Employee>();
+					for (User user : sampleUsers) {
+						//converting the sample user as an employee
+						Employee employee=new EmployeeImpl();
+						employee.setEmpid(user.getId());
+						employee.setEmailAddress(user.getEmail());
+						employee.setEname(user.getFirst_name()+" "+user.getLast_name());
+						employee.setDeptId(10);
+						// we need to add the employee into out sampleEmployeeList
+						sampleEmployeeList.add(employee);
+					}
+					LOG.info("completed restVCall .........");
+					renderRequest.setAttribute("samplesEmployees", sampleEmployeeList);
+					renderRequest.setAttribute("mvcPath", "/listAllSampleUsers.jsp");
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 		} else {
-			LOG.info("No employees found.");
+			int cur = ParamUtil.getInteger(renderRequest, "cur", 1);
+			int delta = ParamUtil.getInteger(renderRequest, "delta", 5);
+			int startIndex = cur == 1 ? 0 : delta * (cur - 1);
+			int endIndex = cur == 1 ? delta
+					: delta > employeeLocalService.getEmployeesCount() ? employeeLocalService.getEmployeesCount()
+							: startIndex + delta;
+			LOG.info("start : " + startIndex + " end : " + endIndex);
+			List<Employee> employees = employeeLocalService.getEmployees(startIndex, endIndex);
+			if (Validator.isNotNull(employees) && !employees.isEmpty()) {
+				LOG.info("The count of employee is : " + employeeLocalService.getEmployeesCount());
+				renderRequest.setAttribute("employees", employees);
+			} else {
+				LOG.info("No employees found.");
+			}
+			renderRequest.setAttribute("cur", cur);
+			renderRequest.setAttribute("delta", delta);
+
+			HttpServletRequest httpServletRequest = PortalUtil.getHttpServletRequest(renderRequest);
+			HttpServletRequest orignalServletRequest = PortalUtil.getOriginalServletRequest(httpServletRequest);
 		}
-		renderRequest.setAttribute("cur", cur);
-		renderRequest.setAttribute("delta", delta);
 
 		super.render(renderRequest, renderResponse);
 	}
@@ -100,8 +128,8 @@ public class EmployeeMSWebPortlet extends MVCPortlet {
 		long deptId = ParamUtil.getLong(actionRequest, WebParamConstants.DEPT_DEPTNAME, 0);
 		String empName = ParamUtil.getString(actionRequest, WebParamConstants.EMP_ENAME, StringPool.BLANK);
 		String emailAddress = ParamUtil.getString(actionRequest, WebParamConstants.EMP_EMAILADDRESS, StringPool.BLANK);
-		long empId=ParamUtil.getLong(actionRequest, WebParamConstants.EMP_EMPID,0);
-		String hrName=ParamUtil.getString(actionRequest, WebParamConstants.EMP_HRNAME,StringPool.BLANK);
+		long empId = ParamUtil.getLong(actionRequest, WebParamConstants.EMP_EMPID, 0);
+		String hrName = ParamUtil.getString(actionRequest, WebParamConstants.EMP_HRNAME, StringPool.BLANK);
 		long assignedTeamsId = ParamUtil.getLong(actionRequest, WebParamConstants.EMP_ASSIGNEDTEAMSID, 0);
 		ThemeDisplay themeDisplay = WebEMSUtil.getThemeDisplay(actionRequest);
 		try {
@@ -111,11 +139,11 @@ public class EmployeeMSWebPortlet extends MVCPortlet {
 					throw new NoSuchDepartmentException("No department found with dept id : " + deptId);
 				}
 				Employee employee = null;
-				if(empId==0) {
+				if (empId == 0) {
 					empId = counterLocalService.increment(Employee.class.getName());
 					employee = employeeLocalService.createEmployee(empId);
-				}else {
-					employee=employeeLocalService.fetchEmployee(empId);
+				} else {
+					employee = employeeLocalService.fetchEmployee(empId);
 				}
 				employee.setEname(empName);
 				employee.setEmailAddress(emailAddress);
@@ -177,13 +205,13 @@ public class EmployeeMSWebPortlet extends MVCPortlet {
 			throws PortletException {
 		String id = resourceRequest.getResourceID();
 		try {
-			System.out.println("resource method called with id : "+id);
+			System.out.println("resource method called with id : " + id);
 			PrintWriter out = resourceResponse.getWriter();
 			if (id.contains("getTeams")) {
 				JSONArray teamsJsonArr = WebEMSUtil.getTeams(-1, -1);
-				System.out.println("wrting json string...."+teamsJsonArr.toString());
+				System.out.println("wrting json string...." + teamsJsonArr.toString());
 				out.write(teamsJsonArr.toString());
-				
+
 			} else if (id.contains("getDepartments")) {
 				JSONArray deptsJsonArr = WebEMSUtil.getDepartments(-1, -1);
 				out.write(deptsJsonArr.toString());

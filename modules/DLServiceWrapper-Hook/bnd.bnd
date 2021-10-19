@@ -1,0 +1,3 @@
+Bundle-Name: DLServiceWrapper-Hook
+Bundle-SymbolicName: com.ems.dl.hook
+Bundle-Version: 1.0.0

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hook PUBLIC "-//Liferay//DTD Hook 7.2.0//EN" "http://www.liferay.com/dtd/liferay-hook_7_2_0.dtd">
+ 
+<hook>
+    <portal-properties>portal.properties</portal-properties>
+    <servlet-filter>
+    	<!-- Name of your choice. -->
+        <servlet-filter-name>ServletFilter</servlet-filter-name>
+        <servlet-filter-impl>com.filter.hook.CustomServletFilter</servlet-filter-impl>
+        <init-param>
+            <param-name>hello</param-name>
+            <param-value>world</param-value>
+        </init-param>
+    </servlet-filter>
+    <servlet-filter-mapping>
+    <servlet-filter-name>ServletFilter</servlet-filter-name>
+        <url-pattern>/group/*</url-pattern>
+        <!-- <url-pattern>/user/*</url-pattern>
+        <url-pattern>/web/*</url-pattern> -->
+        <url-pattern>*.jsp</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </servlet-filter-mapping>
+</hook>

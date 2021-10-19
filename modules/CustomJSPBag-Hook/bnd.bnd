@@ -1,0 +1,6 @@
+Bundle-Name: CustomJSPBag-Hook
+Bundle-SymbolicName: com.customjsp.hook
+Bundle-Version: 1.0.0
+
+-jsp: *.jsp,*.jspf
+-includeresource: META-INF/jsps=src/main/webapps/META-INF/custom_jsps

@@ -32,7 +32,6 @@ public class WebEMSUtil {
 		 * 
 		 * }
 		 */
-
 		if (Validator.isNotNull(portletRequest)) {
 			return (ThemeDisplay) portletRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		} else {

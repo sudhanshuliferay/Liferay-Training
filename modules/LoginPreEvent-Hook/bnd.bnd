@@ -1,0 +1,3 @@
+Bundle-Name: LoginPreEvent-Hook
+Bundle-SymbolicName: com.login.event.hook
+Bundle-Version: 1.0.0
