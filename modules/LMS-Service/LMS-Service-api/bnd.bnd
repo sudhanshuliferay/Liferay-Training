@@ -1,0 +1,10 @@
+Bundle-Name: LMS-Service-api
+Bundle-SymbolicName: com.lms.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.lms.exception,\
+	com.lms.model,\
+	com.lms.service,\
+	com.lms.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../LMS-Service-service/service.xml

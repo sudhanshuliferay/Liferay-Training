@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.lms.model.LibraryStore">
+		<field name="lmsID" type="long" />
+		<field name="bookname" type="String" />
+		<field name="issueDate" type="String" />
+		<field name="uploadedBy" type="String" />
+		<field name="issueTo" type="String" />
+		<field name="groupId" type="long" />
+		<field name="comapnyId" type="long" />
+		<field name="userId" type="long" />
+	</model>
+</model-hints>
