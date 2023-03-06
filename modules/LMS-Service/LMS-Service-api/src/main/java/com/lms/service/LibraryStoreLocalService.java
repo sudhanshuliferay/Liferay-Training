@@ -14,8 +14,10 @@
 
 package com.lms.service;
 
+import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -25,6 +27,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
@@ -113,6 +116,11 @@ public interface LibraryStoreLocalService
 	@Indexable(type = IndexableType.DELETE)
 	public LibraryStore deleteLibraryStore(long lmsID) throws PortalException;
 
+	@Indexable(type = IndexableType.DELETE)
+	public LibraryStore deleteLibraryStore(
+			long lmsId, ServiceContext serviceContext)
+		throws PortalException;
+
 	/**
 	 * @throws PortalException
 	 */
@@ -189,12 +197,29 @@ public interface LibraryStoreLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public LibraryStore fetchLibraryStore(long lmsID);
 
+	/**
+	 * Returns the library store matching the UUID and group.
+	 *
+	 * @param uuid the library store's UUID
+	 * @param groupId the primary key of the group
+	 * @return the matching library store, or <code>null</code> if a matching library store could not be found
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public LibraryStore fetchLibraryStoreByUuidAndGroupId(
+		String uuid, long groupId);
+
+	public List<LibraryStore> findByBookNameFromCustomSQL(String bookName);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<LibraryStore> getAllBooksByIssueDate(
 		String issueDate, long groupId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public ExportActionableDynamicQuery getExportActionableDynamicQuery(
+		PortletDataContext portletDataContext);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
@@ -210,6 +235,19 @@ public interface LibraryStoreLocalService
 	public LibraryStore getLibraryStore(long lmsID) throws PortalException;
 
 	/**
+	 * Returns the library store matching the UUID and group.
+	 *
+	 * @param uuid the library store's UUID
+	 * @param groupId the primary key of the group
+	 * @return the matching library store
+	 * @throws PortalException if a matching library store could not be found
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public LibraryStore getLibraryStoreByUuidAndGroupId(
+			String uuid, long groupId)
+		throws PortalException;
+
+	/**
 	 * Returns a range of all the library stores.
 	 *
 	 * <p>
@@ -222,6 +260,32 @@ public interface LibraryStoreLocalService
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<LibraryStore> getLibraryStores(int start, int end);
+
+	/**
+	 * Returns all the library stores matching the UUID and company.
+	 *
+	 * @param uuid the UUID of the library stores
+	 * @param companyId the primary key of the company
+	 * @return the matching library stores, or an empty list if no matches were found
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<LibraryStore> getLibraryStoresByUuidAndCompanyId(
+		String uuid, long companyId);
+
+	/**
+	 * Returns a range of library stores matching the UUID and company.
+	 *
+	 * @param uuid the UUID of the library stores
+	 * @param companyId the primary key of the company
+	 * @param start the lower bound of the range of library stores
+	 * @param end the upper bound of the range of library stores (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the range of matching library stores, or an empty list if no matches were found
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<LibraryStore> getLibraryStoresByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<LibraryStore> orderByComparator);
 
 	/**
 	 * Returns the number of library stores.
@@ -250,9 +314,11 @@ public interface LibraryStoreLocalService
 	public LibraryStore getStoreByBookName(String bookname, long comapnyID)
 		throws NoSuchLibraryStoreException;
 
-	public boolean saveNewBook(
-		long lmsId, String bookName, String issuedBy, String issueDate,
-		String issueTo, ThemeDisplay display);
+	@Indexable(type = IndexableType.REINDEX)
+	public LibraryStore saveNewBook(
+			long lmsId, String bookName, String issuedBy, String issueDate,
+			String issueTo, ThemeDisplay display, ServiceContext serviceContext)
+		throws PortalException;
 
 	/**
 	 * Updates the library store in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
@@ -266,5 +332,9 @@ public interface LibraryStoreLocalService
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public LibraryStore updateLibraryStore(LibraryStore libraryStore);
+
+	public LibraryStore updateStatus(
+			long userId, long lmsId, int status, ServiceContext serviceContext)
+		throws PortalException, SystemException;
 
 }

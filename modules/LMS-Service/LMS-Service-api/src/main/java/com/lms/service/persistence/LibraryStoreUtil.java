@@ -125,6 +125,417 @@ public class LibraryStoreUtil {
 	}
 
 	/**
+	 * Returns all the library stores where uuid = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @return the matching library stores
+	 */
+	public static List<LibraryStore> findByUuid(String uuid) {
+		return getPersistence().findByUuid(uuid);
+	}
+
+	/**
+	 * Returns a range of all the library stores where uuid = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LibraryStoreModelImpl</code>.
+	 * </p>
+	 *
+	 * @param uuid the uuid
+	 * @param start the lower bound of the range of library stores
+	 * @param end the upper bound of the range of library stores (not inclusive)
+	 * @return the range of matching library stores
+	 */
+	public static List<LibraryStore> findByUuid(
+		String uuid, int start, int end) {
+
+		return getPersistence().findByUuid(uuid, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the library stores where uuid = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LibraryStoreModelImpl</code>.
+	 * </p>
+	 *
+	 * @param uuid the uuid
+	 * @param start the lower bound of the range of library stores
+	 * @param end the upper bound of the range of library stores (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching library stores
+	 */
+	public static List<LibraryStore> findByUuid(
+		String uuid, int start, int end,
+		OrderByComparator<LibraryStore> orderByComparator) {
+
+		return getPersistence().findByUuid(uuid, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the library stores where uuid = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LibraryStoreModelImpl</code>.
+	 * </p>
+	 *
+	 * @param uuid the uuid
+	 * @param start the lower bound of the range of library stores
+	 * @param end the upper bound of the range of library stores (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching library stores
+	 */
+	public static List<LibraryStore> findByUuid(
+		String uuid, int start, int end,
+		OrderByComparator<LibraryStore> orderByComparator,
+		boolean useFinderCache) {
+
+		return getPersistence().findByUuid(
+			uuid, start, end, orderByComparator, useFinderCache);
+	}
+
+	/**
+	 * Returns the first library store in the ordered set where uuid = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching library store
+	 * @throws NoSuchLibraryStoreException if a matching library store could not be found
+	 */
+	public static LibraryStore findByUuid_First(
+			String uuid, OrderByComparator<LibraryStore> orderByComparator)
+		throws com.lms.exception.NoSuchLibraryStoreException {
+
+		return getPersistence().findByUuid_First(uuid, orderByComparator);
+	}
+
+	/**
+	 * Returns the first library store in the ordered set where uuid = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching library store, or <code>null</code> if a matching library store could not be found
+	 */
+	public static LibraryStore fetchByUuid_First(
+		String uuid, OrderByComparator<LibraryStore> orderByComparator) {
+
+		return getPersistence().fetchByUuid_First(uuid, orderByComparator);
+	}
+
+	/**
+	 * Returns the last library store in the ordered set where uuid = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching library store
+	 * @throws NoSuchLibraryStoreException if a matching library store could not be found
+	 */
+	public static LibraryStore findByUuid_Last(
+			String uuid, OrderByComparator<LibraryStore> orderByComparator)
+		throws com.lms.exception.NoSuchLibraryStoreException {
+
+		return getPersistence().findByUuid_Last(uuid, orderByComparator);
+	}
+
+	/**
+	 * Returns the last library store in the ordered set where uuid = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching library store, or <code>null</code> if a matching library store could not be found
+	 */
+	public static LibraryStore fetchByUuid_Last(
+		String uuid, OrderByComparator<LibraryStore> orderByComparator) {
+
+		return getPersistence().fetchByUuid_Last(uuid, orderByComparator);
+	}
+
+	/**
+	 * Returns the library stores before and after the current library store in the ordered set where uuid = &#63;.
+	 *
+	 * @param lmsID the primary key of the current library store
+	 * @param uuid the uuid
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next library store
+	 * @throws NoSuchLibraryStoreException if a library store with the primary key could not be found
+	 */
+	public static LibraryStore[] findByUuid_PrevAndNext(
+			long lmsID, String uuid,
+			OrderByComparator<LibraryStore> orderByComparator)
+		throws com.lms.exception.NoSuchLibraryStoreException {
+
+		return getPersistence().findByUuid_PrevAndNext(
+			lmsID, uuid, orderByComparator);
+	}
+
+	/**
+	 * Removes all the library stores where uuid = &#63; from the database.
+	 *
+	 * @param uuid the uuid
+	 */
+	public static void removeByUuid(String uuid) {
+		getPersistence().removeByUuid(uuid);
+	}
+
+	/**
+	 * Returns the number of library stores where uuid = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @return the number of matching library stores
+	 */
+	public static int countByUuid(String uuid) {
+		return getPersistence().countByUuid(uuid);
+	}
+
+	/**
+	 * Returns the library store where uuid = &#63; and groupId = &#63; or throws a <code>NoSuchLibraryStoreException</code> if it could not be found.
+	 *
+	 * @param uuid the uuid
+	 * @param groupId the group ID
+	 * @return the matching library store
+	 * @throws NoSuchLibraryStoreException if a matching library store could not be found
+	 */
+	public static LibraryStore findByUUID_G(String uuid, long groupId)
+		throws com.lms.exception.NoSuchLibraryStoreException {
+
+		return getPersistence().findByUUID_G(uuid, groupId);
+	}
+
+	/**
+	 * Returns the library store where uuid = &#63; and groupId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param uuid the uuid
+	 * @param groupId the group ID
+	 * @return the matching library store, or <code>null</code> if a matching library store could not be found
+	 */
+	public static LibraryStore fetchByUUID_G(String uuid, long groupId) {
+		return getPersistence().fetchByUUID_G(uuid, groupId);
+	}
+
+	/**
+	 * Returns the library store where uuid = &#63; and groupId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param uuid the uuid
+	 * @param groupId the group ID
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching library store, or <code>null</code> if a matching library store could not be found
+	 */
+	public static LibraryStore fetchByUUID_G(
+		String uuid, long groupId, boolean useFinderCache) {
+
+		return getPersistence().fetchByUUID_G(uuid, groupId, useFinderCache);
+	}
+
+	/**
+	 * Removes the library store where uuid = &#63; and groupId = &#63; from the database.
+	 *
+	 * @param uuid the uuid
+	 * @param groupId the group ID
+	 * @return the library store that was removed
+	 */
+	public static LibraryStore removeByUUID_G(String uuid, long groupId)
+		throws com.lms.exception.NoSuchLibraryStoreException {
+
+		return getPersistence().removeByUUID_G(uuid, groupId);
+	}
+
+	/**
+	 * Returns the number of library stores where uuid = &#63; and groupId = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param groupId the group ID
+	 * @return the number of matching library stores
+	 */
+	public static int countByUUID_G(String uuid, long groupId) {
+		return getPersistence().countByUUID_G(uuid, groupId);
+	}
+
+	/**
+	 * Returns all the library stores where uuid = &#63; and companyId = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @return the matching library stores
+	 */
+	public static List<LibraryStore> findByUuid_C(String uuid, long companyId) {
+		return getPersistence().findByUuid_C(uuid, companyId);
+	}
+
+	/**
+	 * Returns a range of all the library stores where uuid = &#63; and companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LibraryStoreModelImpl</code>.
+	 * </p>
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of library stores
+	 * @param end the upper bound of the range of library stores (not inclusive)
+	 * @return the range of matching library stores
+	 */
+	public static List<LibraryStore> findByUuid_C(
+		String uuid, long companyId, int start, int end) {
+
+		return getPersistence().findByUuid_C(uuid, companyId, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the library stores where uuid = &#63; and companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LibraryStoreModelImpl</code>.
+	 * </p>
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of library stores
+	 * @param end the upper bound of the range of library stores (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching library stores
+	 */
+	public static List<LibraryStore> findByUuid_C(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<LibraryStore> orderByComparator) {
+
+		return getPersistence().findByUuid_C(
+			uuid, companyId, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the library stores where uuid = &#63; and companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LibraryStoreModelImpl</code>.
+	 * </p>
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of library stores
+	 * @param end the upper bound of the range of library stores (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching library stores
+	 */
+	public static List<LibraryStore> findByUuid_C(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<LibraryStore> orderByComparator,
+		boolean useFinderCache) {
+
+		return getPersistence().findByUuid_C(
+			uuid, companyId, start, end, orderByComparator, useFinderCache);
+	}
+
+	/**
+	 * Returns the first library store in the ordered set where uuid = &#63; and companyId = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching library store
+	 * @throws NoSuchLibraryStoreException if a matching library store could not be found
+	 */
+	public static LibraryStore findByUuid_C_First(
+			String uuid, long companyId,
+			OrderByComparator<LibraryStore> orderByComparator)
+		throws com.lms.exception.NoSuchLibraryStoreException {
+
+		return getPersistence().findByUuid_C_First(
+			uuid, companyId, orderByComparator);
+	}
+
+	/**
+	 * Returns the first library store in the ordered set where uuid = &#63; and companyId = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching library store, or <code>null</code> if a matching library store could not be found
+	 */
+	public static LibraryStore fetchByUuid_C_First(
+		String uuid, long companyId,
+		OrderByComparator<LibraryStore> orderByComparator) {
+
+		return getPersistence().fetchByUuid_C_First(
+			uuid, companyId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last library store in the ordered set where uuid = &#63; and companyId = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching library store
+	 * @throws NoSuchLibraryStoreException if a matching library store could not be found
+	 */
+	public static LibraryStore findByUuid_C_Last(
+			String uuid, long companyId,
+			OrderByComparator<LibraryStore> orderByComparator)
+		throws com.lms.exception.NoSuchLibraryStoreException {
+
+		return getPersistence().findByUuid_C_Last(
+			uuid, companyId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last library store in the ordered set where uuid = &#63; and companyId = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching library store, or <code>null</code> if a matching library store could not be found
+	 */
+	public static LibraryStore fetchByUuid_C_Last(
+		String uuid, long companyId,
+		OrderByComparator<LibraryStore> orderByComparator) {
+
+		return getPersistence().fetchByUuid_C_Last(
+			uuid, companyId, orderByComparator);
+	}
+
+	/**
+	 * Returns the library stores before and after the current library store in the ordered set where uuid = &#63; and companyId = &#63;.
+	 *
+	 * @param lmsID the primary key of the current library store
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next library store
+	 * @throws NoSuchLibraryStoreException if a library store with the primary key could not be found
+	 */
+	public static LibraryStore[] findByUuid_C_PrevAndNext(
+			long lmsID, String uuid, long companyId,
+			OrderByComparator<LibraryStore> orderByComparator)
+		throws com.lms.exception.NoSuchLibraryStoreException {
+
+		return getPersistence().findByUuid_C_PrevAndNext(
+			lmsID, uuid, companyId, orderByComparator);
+	}
+
+	/**
+	 * Removes all the library stores where uuid = &#63; and companyId = &#63; from the database.
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 */
+	public static void removeByUuid_C(String uuid, long companyId) {
+		getPersistence().removeByUuid_C(uuid, companyId);
+	}
+
+	/**
+	 * Returns the number of library stores where uuid = &#63; and companyId = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @return the number of matching library stores
+	 */
+	public static int countByUuid_C(String uuid, long companyId) {
+		return getPersistence().countByUuid_C(uuid, companyId);
+	}
+
+	/**
 	 * Returns the library store where bookname = &#63; and groupId = &#63; or throws a <code>NoSuchLibraryStoreException</code> if it could not be found.
 	 *
 	 * @param bookname the bookname
@@ -354,6 +765,80 @@ public class LibraryStoreUtil {
 	}
 
 	/**
+	 * Returns all the library stores that the user has permission to view where issueDate = &#63; and groupId = &#63;.
+	 *
+	 * @param issueDate the issue date
+	 * @param groupId the group ID
+	 * @return the matching library stores that the user has permission to view
+	 */
+	public static List<LibraryStore> filterFindByIssueDate(
+		String issueDate, long groupId) {
+
+		return getPersistence().filterFindByIssueDate(issueDate, groupId);
+	}
+
+	/**
+	 * Returns a range of all the library stores that the user has permission to view where issueDate = &#63; and groupId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LibraryStoreModelImpl</code>.
+	 * </p>
+	 *
+	 * @param issueDate the issue date
+	 * @param groupId the group ID
+	 * @param start the lower bound of the range of library stores
+	 * @param end the upper bound of the range of library stores (not inclusive)
+	 * @return the range of matching library stores that the user has permission to view
+	 */
+	public static List<LibraryStore> filterFindByIssueDate(
+		String issueDate, long groupId, int start, int end) {
+
+		return getPersistence().filterFindByIssueDate(
+			issueDate, groupId, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the library stores that the user has permissions to view where issueDate = &#63; and groupId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LibraryStoreModelImpl</code>.
+	 * </p>
+	 *
+	 * @param issueDate the issue date
+	 * @param groupId the group ID
+	 * @param start the lower bound of the range of library stores
+	 * @param end the upper bound of the range of library stores (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching library stores that the user has permission to view
+	 */
+	public static List<LibraryStore> filterFindByIssueDate(
+		String issueDate, long groupId, int start, int end,
+		OrderByComparator<LibraryStore> orderByComparator) {
+
+		return getPersistence().filterFindByIssueDate(
+			issueDate, groupId, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns the library stores before and after the current library store in the ordered set of library stores that the user has permission to view where issueDate = &#63; and groupId = &#63;.
+	 *
+	 * @param lmsID the primary key of the current library store
+	 * @param issueDate the issue date
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next library store
+	 * @throws NoSuchLibraryStoreException if a library store with the primary key could not be found
+	 */
+	public static LibraryStore[] filterFindByIssueDate_PrevAndNext(
+			long lmsID, String issueDate, long groupId,
+			OrderByComparator<LibraryStore> orderByComparator)
+		throws com.lms.exception.NoSuchLibraryStoreException {
+
+		return getPersistence().filterFindByIssueDate_PrevAndNext(
+			lmsID, issueDate, groupId, orderByComparator);
+	}
+
+	/**
 	 * Removes all the library stores where issueDate = &#63; and groupId = &#63; from the database.
 	 *
 	 * @param issueDate the issue date
@@ -372,6 +857,17 @@ public class LibraryStoreUtil {
 	 */
 	public static int countByIssueDate(String issueDate, long groupId) {
 		return getPersistence().countByIssueDate(issueDate, groupId);
+	}
+
+	/**
+	 * Returns the number of library stores that the user has permission to view where issueDate = &#63; and groupId = &#63;.
+	 *
+	 * @param issueDate the issue date
+	 * @param groupId the group ID
+	 * @return the number of matching library stores that the user has permission to view
+	 */
+	public static int filterCountByIssueDate(String issueDate, long groupId) {
+		return getPersistence().filterCountByIssueDate(issueDate, groupId);
 	}
 
 	/**

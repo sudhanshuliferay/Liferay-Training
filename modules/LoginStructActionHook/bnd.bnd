@@ -1,0 +1,4 @@
+Bundle-Name: LoginStructActionHook
+Bundle-SymbolicName: com.strut.login
+Bundle-Version: 1.0.0
+Export-Package: com.strut.login.api

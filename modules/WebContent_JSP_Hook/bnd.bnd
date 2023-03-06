@@ -1,0 +1,5 @@
+Bundle-Name: WebContent_JSP_Hook
+Bundle-SymbolicName: webcontent_jsp_hook
+Bundle-Version: 1.0.0
+Fragment-Host: com.liferay.journal.web;bundle-version="3.0.41"
+Portal-Bundle-Version: 7.2.1

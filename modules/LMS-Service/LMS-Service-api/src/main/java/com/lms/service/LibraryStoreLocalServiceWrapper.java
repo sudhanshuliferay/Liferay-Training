@@ -96,6 +96,16 @@ public class LibraryStoreLocalServiceWrapper
 		return _libraryStoreLocalService.deleteLibraryStore(lmsID);
 	}
 
+	@Override
+	public com.lms.model.LibraryStore deleteLibraryStore(
+			long lmsId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _libraryStoreLocalService.deleteLibraryStore(
+			lmsId, serviceContext);
+	}
+
 	/**
 	 * @throws PortalException
 	 */
@@ -202,6 +212,28 @@ public class LibraryStoreLocalServiceWrapper
 		return _libraryStoreLocalService.fetchLibraryStore(lmsID);
 	}
 
+	/**
+	 * Returns the library store matching the UUID and group.
+	 *
+	 * @param uuid the library store's UUID
+	 * @param groupId the primary key of the group
+	 * @return the matching library store, or <code>null</code> if a matching library store could not be found
+	 */
+	@Override
+	public com.lms.model.LibraryStore fetchLibraryStoreByUuidAndGroupId(
+		String uuid, long groupId) {
+
+		return _libraryStoreLocalService.fetchLibraryStoreByUuidAndGroupId(
+			uuid, groupId);
+	}
+
+	@Override
+	public java.util.List<com.lms.model.LibraryStore>
+		findByBookNameFromCustomSQL(String bookName) {
+
+		return _libraryStoreLocalService.findByBookNameFromCustomSQL(bookName);
+	}
+
 	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
@@ -215,6 +247,16 @@ public class LibraryStoreLocalServiceWrapper
 
 		return _libraryStoreLocalService.getAllBooksByIssueDate(
 			issueDate, groupId);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery
+		getExportActionableDynamicQuery(
+			com.liferay.exportimport.kernel.lar.PortletDataContext
+				portletDataContext) {
+
+		return _libraryStoreLocalService.getExportActionableDynamicQuery(
+			portletDataContext);
 	}
 
 	@Override
@@ -239,6 +281,23 @@ public class LibraryStoreLocalServiceWrapper
 	}
 
 	/**
+	 * Returns the library store matching the UUID and group.
+	 *
+	 * @param uuid the library store's UUID
+	 * @param groupId the primary key of the group
+	 * @return the matching library store
+	 * @throws PortalException if a matching library store could not be found
+	 */
+	@Override
+	public com.lms.model.LibraryStore getLibraryStoreByUuidAndGroupId(
+			String uuid, long groupId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _libraryStoreLocalService.getLibraryStoreByUuidAndGroupId(
+			uuid, groupId);
+	}
+
+	/**
 	 * Returns a range of all the library stores.
 	 *
 	 * <p>
@@ -254,6 +313,42 @@ public class LibraryStoreLocalServiceWrapper
 		int start, int end) {
 
 		return _libraryStoreLocalService.getLibraryStores(start, end);
+	}
+
+	/**
+	 * Returns all the library stores matching the UUID and company.
+	 *
+	 * @param uuid the UUID of the library stores
+	 * @param companyId the primary key of the company
+	 * @return the matching library stores, or an empty list if no matches were found
+	 */
+	@Override
+	public java.util.List<com.lms.model.LibraryStore>
+		getLibraryStoresByUuidAndCompanyId(String uuid, long companyId) {
+
+		return _libraryStoreLocalService.getLibraryStoresByUuidAndCompanyId(
+			uuid, companyId);
+	}
+
+	/**
+	 * Returns a range of library stores matching the UUID and company.
+	 *
+	 * @param uuid the UUID of the library stores
+	 * @param companyId the primary key of the company
+	 * @param start the lower bound of the range of library stores
+	 * @param end the upper bound of the range of library stores (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the range of matching library stores, or an empty list if no matches were found
+	 */
+	@Override
+	public java.util.List<com.lms.model.LibraryStore>
+		getLibraryStoresByUuidAndCompanyId(
+			String uuid, long companyId, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<com.lms.model.LibraryStore> orderByComparator) {
+
+		return _libraryStoreLocalService.getLibraryStoresByUuidAndCompanyId(
+			uuid, companyId, start, end, orderByComparator);
 	}
 
 	/**
@@ -297,12 +392,16 @@ public class LibraryStoreLocalServiceWrapper
 	}
 
 	@Override
-	public boolean saveNewBook(
-		long lmsId, String bookName, String issuedBy, String issueDate,
-		String issueTo, com.liferay.portal.kernel.theme.ThemeDisplay display) {
+	public com.lms.model.LibraryStore saveNewBook(
+			long lmsId, String bookName, String issuedBy, String issueDate,
+			String issueTo,
+			com.liferay.portal.kernel.theme.ThemeDisplay display,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _libraryStoreLocalService.saveNewBook(
-			lmsId, bookName, issuedBy, issueDate, issueTo, display);
+			lmsId, bookName, issuedBy, issueDate, issueTo, display,
+			serviceContext);
 	}
 
 	/**
@@ -320,6 +419,17 @@ public class LibraryStoreLocalServiceWrapper
 		com.lms.model.LibraryStore libraryStore) {
 
 		return _libraryStoreLocalService.updateLibraryStore(libraryStore);
+	}
+
+	@Override
+	public com.lms.model.LibraryStore updateStatus(
+			long userId, long lmsId, int status,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			   com.liferay.portal.kernel.exception.SystemException {
+
+		return _libraryStoreLocalService.updateStatus(
+			userId, lmsId, status, serviceContext);
 	}
 
 	@Override

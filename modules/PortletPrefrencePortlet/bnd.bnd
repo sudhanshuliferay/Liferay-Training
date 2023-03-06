@@ -1,0 +1,4 @@
+Bundle-Name: PortletPrefrencePortlet
+Bundle-SymbolicName: com.prefrences
+Bundle-Version: 1.0.0
+Export-Package: com.prefrences.constants

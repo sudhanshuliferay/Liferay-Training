@@ -1,0 +1,7 @@
+<custom-sql>
+    <sql id="com.lms.service.persistence.LibraryStoreFinder.findByBookName">
+    	<![CDATA[
+    		Select * from LMS_LibraryStore where bookname=?
+    	]]>
+    </sql>
+</custom-sql>

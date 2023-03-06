@@ -17,10 +17,11 @@ package com.lms.model;
 import java.io.Serializable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
- * This class is used by SOAP remote services.
+ * This class is used by SOAP remote services, specifically {@link com.lms.service.http.LibraryStoreServiceSoap}.
  *
  * @author Brian Wing Shun Chan
  * @generated
@@ -30,14 +31,24 @@ public class LibraryStoreSoap implements Serializable {
 	public static LibraryStoreSoap toSoapModel(LibraryStore model) {
 		LibraryStoreSoap soapModel = new LibraryStoreSoap();
 
+		soapModel.setUuid(model.getUuid());
 		soapModel.setLmsID(model.getLmsID());
 		soapModel.setBookname(model.getBookname());
 		soapModel.setIssueDate(model.getIssueDate());
 		soapModel.setUploadedBy(model.getUploadedBy());
 		soapModel.setIssueTo(model.getIssueTo());
+		soapModel.setAuthorName(model.getAuthorName());
 		soapModel.setGroupId(model.getGroupId());
-		soapModel.setComapnyId(model.getComapnyId());
+		soapModel.setCompanyId(model.getCompanyId());
 		soapModel.setUserId(model.getUserId());
+		soapModel.setUserName(model.getUserName());
+		soapModel.setCreateDate(model.getCreateDate());
+		soapModel.setCreatedDate(model.getCreatedDate());
+		soapModel.setModifiedDate(model.getModifiedDate());
+		soapModel.setStatus(model.getStatus());
+		soapModel.setStatusByUserId(model.getStatusByUserId());
+		soapModel.setStatusByUserName(model.getStatusByUserName());
+		soapModel.setStatusDate(model.getStatusDate());
 
 		return soapModel;
 	}
@@ -91,6 +102,14 @@ public class LibraryStoreSoap implements Serializable {
 		setLmsID(pk);
 	}
 
+	public String getUuid() {
+		return _uuid;
+	}
+
+	public void setUuid(String uuid) {
+		_uuid = uuid;
+	}
+
 	public long getLmsID() {
 		return _lmsID;
 	}
@@ -131,6 +150,14 @@ public class LibraryStoreSoap implements Serializable {
 		_issueTo = issueTo;
 	}
 
+	public String getAuthorName() {
+		return _authorName;
+	}
+
+	public void setAuthorName(String authorName) {
+		_authorName = authorName;
+	}
+
 	public long getGroupId() {
 		return _groupId;
 	}
@@ -139,12 +166,12 @@ public class LibraryStoreSoap implements Serializable {
 		_groupId = groupId;
 	}
 
-	public long getComapnyId() {
-		return _comapnyId;
+	public long getCompanyId() {
+		return _companyId;
 	}
 
-	public void setComapnyId(long comapnyId) {
-		_comapnyId = comapnyId;
+	public void setCompanyId(long companyId) {
+		_companyId = companyId;
 	}
 
 	public long getUserId() {
@@ -155,13 +182,87 @@ public class LibraryStoreSoap implements Serializable {
 		_userId = userId;
 	}
 
+	public String getUserName() {
+		return _userName;
+	}
+
+	public void setUserName(String userName) {
+		_userName = userName;
+	}
+
+	public Date getCreateDate() {
+		return _createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		_createDate = createDate;
+	}
+
+	public Date getCreatedDate() {
+		return _createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		_createdDate = createdDate;
+	}
+
+	public Date getModifiedDate() {
+		return _modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		_modifiedDate = modifiedDate;
+	}
+
+	public int getStatus() {
+		return _status;
+	}
+
+	public void setStatus(int status) {
+		_status = status;
+	}
+
+	public long getStatusByUserId() {
+		return _statusByUserId;
+	}
+
+	public void setStatusByUserId(long statusByUserId) {
+		_statusByUserId = statusByUserId;
+	}
+
+	public String getStatusByUserName() {
+		return _statusByUserName;
+	}
+
+	public void setStatusByUserName(String statusByUserName) {
+		_statusByUserName = statusByUserName;
+	}
+
+	public Date getStatusDate() {
+		return _statusDate;
+	}
+
+	public void setStatusDate(Date statusDate) {
+		_statusDate = statusDate;
+	}
+
+	private String _uuid;
 	private long _lmsID;
 	private String _bookname;
 	private String _issueDate;
 	private String _uploadedBy;
 	private String _issueTo;
+	private String _authorName;
 	private long _groupId;
-	private long _comapnyId;
+	private long _companyId;
 	private long _userId;
+	private String _userName;
+	private Date _createDate;
+	private Date _createdDate;
+	private Date _modifiedDate;
+	private int _status;
+	private long _statusByUserId;
+	private String _statusByUserName;
+	private Date _statusDate;
 
 }

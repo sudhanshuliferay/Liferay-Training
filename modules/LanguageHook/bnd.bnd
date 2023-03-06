@@ -1,0 +1,13 @@
+Bundle-Name: LanguageHook
+Bundle-SymbolicName: com.langauge
+Bundle-Version: 1.0.0
+Export-Package: com.langauge.constants
+Provide-Capability:\
+    liferay.resource.bundle;\
+        resource.bundle.base.name="content.Language",\
+    liferay.resource.bundle;\
+        bundle.symbolic.name=com.liferay.product.navigation.user.personal.bar.web;\
+        resource.bundle.aggregate:String="(bundle.symbolic.name=com.langauge),(bundle.symbolic.name=com.liferay.product.navigation.user.personal.bar.web)";\
+        resource.bundle.base.name="content.Language";\
+        service.ranking:Long="2";\
+        servlet.context.name=product-navigation-personal-menu-web

@@ -16,9 +16,11 @@ package com.lms.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.User;
@@ -26,10 +28,13 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import com.lms.model.LibraryStore;
 import com.lms.model.LibraryStoreModel;
+import com.lms.model.LibraryStoreSoap;
 
 import java.io.Serializable;
 
@@ -38,9 +43,12 @@ import java.lang.reflect.InvocationHandler;
 
 import java.sql.Types;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -56,6 +64,7 @@ import java.util.function.Function;
  * @see LibraryStoreImpl
  * @generated
  */
+@JSON(strict = true)
 public class LibraryStoreModelImpl
 	extends BaseModelImpl<LibraryStore> implements LibraryStoreModel {
 
@@ -67,28 +76,43 @@ public class LibraryStoreModelImpl
 	public static final String TABLE_NAME = "LMS_LibraryStore";
 
 	public static final Object[][] TABLE_COLUMNS = {
-		{"lmsID", Types.BIGINT}, {"bookname", Types.VARCHAR},
-		{"issueDate", Types.VARCHAR}, {"uploadedBy", Types.VARCHAR},
-		{"issueTo", Types.VARCHAR}, {"groupId", Types.BIGINT},
-		{"comapnyId", Types.BIGINT}, {"userId", Types.BIGINT}
+		{"uuid_", Types.VARCHAR}, {"lmsID", Types.BIGINT},
+		{"bookname", Types.VARCHAR}, {"issueDate", Types.VARCHAR},
+		{"uploadedBy", Types.VARCHAR}, {"issueTo", Types.VARCHAR},
+		{"authorName", Types.VARCHAR}, {"groupId", Types.BIGINT},
+		{"companyId", Types.BIGINT}, {"userId", Types.BIGINT},
+		{"userName", Types.VARCHAR}, {"createDate", Types.TIMESTAMP},
+		{"createdDate", Types.TIMESTAMP}, {"modifiedDate", Types.TIMESTAMP},
+		{"status", Types.INTEGER}, {"statusByUserId", Types.BIGINT},
+		{"statusByUserName", Types.VARCHAR}, {"statusDate", Types.TIMESTAMP}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
 		new HashMap<String, Integer>();
 
 	static {
+		TABLE_COLUMNS_MAP.put("uuid_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("lmsID", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("bookname", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("issueDate", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("uploadedBy", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("issueTo", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("authorName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("comapnyId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("createdDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("status", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("statusByUserId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table LMS_LibraryStore (lmsID LONG not null primary key,bookname VARCHAR(75) null,issueDate VARCHAR(75) null,uploadedBy VARCHAR(75) null,issueTo VARCHAR(75) null,groupId LONG,comapnyId LONG,userId LONG)";
+		"create table LMS_LibraryStore (uuid_ VARCHAR(75) null,lmsID LONG not null primary key,bookname VARCHAR(75) null,issueDate VARCHAR(75) null,uploadedBy VARCHAR(75) null,issueTo VARCHAR(75) null,authorName VARCHAR(75) null,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,createdDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null)";
 
 	public static final String TABLE_SQL_DROP = "drop table LMS_LibraryStore";
 
@@ -106,9 +130,13 @@ public class LibraryStoreModelImpl
 
 	public static final long BOOKNAME_COLUMN_BITMASK = 1L;
 
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
+	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 
-	public static final long ISSUEDATE_COLUMN_BITMASK = 4L;
+	public static final long GROUPID_COLUMN_BITMASK = 4L;
+
+	public static final long ISSUEDATE_COLUMN_BITMASK = 8L;
+
+	public static final long UUID_COLUMN_BITMASK = 16L;
 
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
@@ -116,6 +144,62 @@ public class LibraryStoreModelImpl
 
 	public static void setFinderCacheEnabled(boolean finderCacheEnabled) {
 		_finderCacheEnabled = finderCacheEnabled;
+	}
+
+	/**
+	 * Converts the soap model instance into a normal model instance.
+	 *
+	 * @param soapModel the soap model instance to convert
+	 * @return the normal model instance
+	 */
+	public static LibraryStore toModel(LibraryStoreSoap soapModel) {
+		if (soapModel == null) {
+			return null;
+		}
+
+		LibraryStore model = new LibraryStoreImpl();
+
+		model.setUuid(soapModel.getUuid());
+		model.setLmsID(soapModel.getLmsID());
+		model.setBookname(soapModel.getBookname());
+		model.setIssueDate(soapModel.getIssueDate());
+		model.setUploadedBy(soapModel.getUploadedBy());
+		model.setIssueTo(soapModel.getIssueTo());
+		model.setAuthorName(soapModel.getAuthorName());
+		model.setGroupId(soapModel.getGroupId());
+		model.setCompanyId(soapModel.getCompanyId());
+		model.setUserId(soapModel.getUserId());
+		model.setUserName(soapModel.getUserName());
+		model.setCreateDate(soapModel.getCreateDate());
+		model.setCreatedDate(soapModel.getCreatedDate());
+		model.setModifiedDate(soapModel.getModifiedDate());
+		model.setStatus(soapModel.getStatus());
+		model.setStatusByUserId(soapModel.getStatusByUserId());
+		model.setStatusByUserName(soapModel.getStatusByUserName());
+		model.setStatusDate(soapModel.getStatusDate());
+
+		return model;
+	}
+
+	/**
+	 * Converts the soap model instances into normal model instances.
+	 *
+	 * @param soapModels the soap model instances to convert
+	 * @return the normal model instances
+	 */
+	public static List<LibraryStore> toModels(LibraryStoreSoap[] soapModels) {
+		if (soapModels == null) {
+			return null;
+		}
+
+		List<LibraryStore> models = new ArrayList<LibraryStore>(
+			soapModels.length);
+
+		for (LibraryStoreSoap soapModel : soapModels) {
+			models.add(toModel(soapModel));
+		}
+
+		return models;
 	}
 
 	public LibraryStoreModelImpl() {
@@ -245,6 +329,9 @@ public class LibraryStoreModelImpl
 		Map<String, BiConsumer<LibraryStore, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<LibraryStore, ?>>();
 
+		attributeGetterFunctions.put("uuid", LibraryStore::getUuid);
+		attributeSetterBiConsumers.put(
+			"uuid", (BiConsumer<LibraryStore, String>)LibraryStore::setUuid);
 		attributeGetterFunctions.put("lmsID", LibraryStore::getLmsID);
 		attributeSetterBiConsumers.put(
 			"lmsID", (BiConsumer<LibraryStore, Long>)LibraryStore::setLmsID);
@@ -264,17 +351,58 @@ public class LibraryStoreModelImpl
 		attributeSetterBiConsumers.put(
 			"issueTo",
 			(BiConsumer<LibraryStore, String>)LibraryStore::setIssueTo);
+		attributeGetterFunctions.put("authorName", LibraryStore::getAuthorName);
+		attributeSetterBiConsumers.put(
+			"authorName",
+			(BiConsumer<LibraryStore, String>)LibraryStore::setAuthorName);
 		attributeGetterFunctions.put("groupId", LibraryStore::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<LibraryStore, Long>)LibraryStore::setGroupId);
-		attributeGetterFunctions.put("comapnyId", LibraryStore::getComapnyId);
+		attributeGetterFunctions.put("companyId", LibraryStore::getCompanyId);
 		attributeSetterBiConsumers.put(
-			"comapnyId",
-			(BiConsumer<LibraryStore, Long>)LibraryStore::setComapnyId);
+			"companyId",
+			(BiConsumer<LibraryStore, Long>)LibraryStore::setCompanyId);
 		attributeGetterFunctions.put("userId", LibraryStore::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<LibraryStore, Long>)LibraryStore::setUserId);
+		attributeGetterFunctions.put("userName", LibraryStore::getUserName);
+		attributeSetterBiConsumers.put(
+			"userName",
+			(BiConsumer<LibraryStore, String>)LibraryStore::setUserName);
+		attributeGetterFunctions.put("createDate", LibraryStore::getCreateDate);
+		attributeSetterBiConsumers.put(
+			"createDate",
+			(BiConsumer<LibraryStore, Date>)LibraryStore::setCreateDate);
+		attributeGetterFunctions.put(
+			"createdDate", LibraryStore::getCreatedDate);
+		attributeSetterBiConsumers.put(
+			"createdDate",
+			(BiConsumer<LibraryStore, Date>)LibraryStore::setCreatedDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", LibraryStore::getModifiedDate);
+		attributeSetterBiConsumers.put(
+			"modifiedDate",
+			(BiConsumer<LibraryStore, Date>)LibraryStore::setModifiedDate);
+		attributeGetterFunctions.put("status", LibraryStore::getStatus);
+		attributeSetterBiConsumers.put(
+			"status",
+			(BiConsumer<LibraryStore, Integer>)LibraryStore::setStatus);
+		attributeGetterFunctions.put(
+			"statusByUserId", LibraryStore::getStatusByUserId);
+		attributeSetterBiConsumers.put(
+			"statusByUserId",
+			(BiConsumer<LibraryStore, Long>)LibraryStore::setStatusByUserId);
+		attributeGetterFunctions.put(
+			"statusByUserName", LibraryStore::getStatusByUserName);
+		attributeSetterBiConsumers.put(
+			"statusByUserName",
+			(BiConsumer<LibraryStore, String>)
+				LibraryStore::setStatusByUserName);
+		attributeGetterFunctions.put("statusDate", LibraryStore::getStatusDate);
+		attributeSetterBiConsumers.put(
+			"statusDate",
+			(BiConsumer<LibraryStore, Date>)LibraryStore::setStatusDate);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -282,6 +410,33 @@ public class LibraryStoreModelImpl
 			(Map)attributeSetterBiConsumers);
 	}
 
+	@JSON
+	@Override
+	public String getUuid() {
+		if (_uuid == null) {
+			return "";
+		}
+		else {
+			return _uuid;
+		}
+	}
+
+	@Override
+	public void setUuid(String uuid) {
+		_columnBitmask |= UUID_COLUMN_BITMASK;
+
+		if (_originalUuid == null) {
+			_originalUuid = _uuid;
+		}
+
+		_uuid = uuid;
+	}
+
+	public String getOriginalUuid() {
+		return GetterUtil.getString(_originalUuid);
+	}
+
+	@JSON
 	@Override
 	public long getLmsID() {
 		return _lmsID;
@@ -292,6 +447,7 @@ public class LibraryStoreModelImpl
 		_lmsID = lmsID;
 	}
 
+	@JSON
 	@Override
 	public String getBookname() {
 		if (_bookname == null) {
@@ -317,6 +473,7 @@ public class LibraryStoreModelImpl
 		return GetterUtil.getString(_originalBookname);
 	}
 
+	@JSON
 	@Override
 	public String getIssueDate() {
 		if (_issueDate == null) {
@@ -342,6 +499,7 @@ public class LibraryStoreModelImpl
 		return GetterUtil.getString(_originalIssueDate);
 	}
 
+	@JSON
 	@Override
 	public String getUploadedBy() {
 		if (_uploadedBy == null) {
@@ -357,6 +515,7 @@ public class LibraryStoreModelImpl
 		_uploadedBy = uploadedBy;
 	}
 
+	@JSON
 	@Override
 	public String getIssueTo() {
 		if (_issueTo == null) {
@@ -372,6 +531,23 @@ public class LibraryStoreModelImpl
 		_issueTo = issueTo;
 	}
 
+	@JSON
+	@Override
+	public String getAuthorName() {
+		if (_authorName == null) {
+			return "";
+		}
+		else {
+			return _authorName;
+		}
+	}
+
+	@Override
+	public void setAuthorName(String authorName) {
+		_authorName = authorName;
+	}
+
+	@JSON
 	@Override
 	public long getGroupId() {
 		return _groupId;
@@ -394,16 +570,30 @@ public class LibraryStoreModelImpl
 		return _originalGroupId;
 	}
 
+	@JSON
 	@Override
-	public long getComapnyId() {
-		return _comapnyId;
+	public long getCompanyId() {
+		return _companyId;
 	}
 
 	@Override
-	public void setComapnyId(long comapnyId) {
-		_comapnyId = comapnyId;
+	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!_setOriginalCompanyId) {
+			_setOriginalCompanyId = true;
+
+			_originalCompanyId = _companyId;
+		}
+
+		_companyId = companyId;
 	}
 
+	public long getOriginalCompanyId() {
+		return _originalCompanyId;
+	}
+
+	@JSON
 	@Override
 	public long getUserId() {
 		return _userId;
@@ -430,6 +620,212 @@ public class LibraryStoreModelImpl
 	public void setUserUuid(String userUuid) {
 	}
 
+	@JSON
+	@Override
+	public String getUserName() {
+		if (_userName == null) {
+			return "";
+		}
+		else {
+			return _userName;
+		}
+	}
+
+	@Override
+	public void setUserName(String userName) {
+		_userName = userName;
+	}
+
+	@JSON
+	@Override
+	public Date getCreateDate() {
+		return _createDate;
+	}
+
+	@Override
+	public void setCreateDate(Date createDate) {
+		_createDate = createDate;
+	}
+
+	@JSON
+	@Override
+	public Date getCreatedDate() {
+		return _createdDate;
+	}
+
+	@Override
+	public void setCreatedDate(Date createdDate) {
+		_createdDate = createdDate;
+	}
+
+	@JSON
+	@Override
+	public Date getModifiedDate() {
+		return _modifiedDate;
+	}
+
+	public boolean hasSetModifiedDate() {
+		return _setModifiedDate;
+	}
+
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_setModifiedDate = true;
+
+		_modifiedDate = modifiedDate;
+	}
+
+	@JSON
+	@Override
+	public int getStatus() {
+		return _status;
+	}
+
+	@Override
+	public void setStatus(int status) {
+		_status = status;
+	}
+
+	@JSON
+	@Override
+	public long getStatusByUserId() {
+		return _statusByUserId;
+	}
+
+	@Override
+	public void setStatusByUserId(long statusByUserId) {
+		_statusByUserId = statusByUserId;
+	}
+
+	@Override
+	public String getStatusByUserUuid() {
+		try {
+			User user = UserLocalServiceUtil.getUserById(getStatusByUserId());
+
+			return user.getUuid();
+		}
+		catch (PortalException portalException) {
+			return "";
+		}
+	}
+
+	@Override
+	public void setStatusByUserUuid(String statusByUserUuid) {
+	}
+
+	@JSON
+	@Override
+	public String getStatusByUserName() {
+		if (_statusByUserName == null) {
+			return "";
+		}
+		else {
+			return _statusByUserName;
+		}
+	}
+
+	@Override
+	public void setStatusByUserName(String statusByUserName) {
+		_statusByUserName = statusByUserName;
+	}
+
+	@JSON
+	@Override
+	public Date getStatusDate() {
+		return _statusDate;
+	}
+
+	@Override
+	public void setStatusDate(Date statusDate) {
+		_statusDate = statusDate;
+	}
+
+	@Override
+	public StagedModelType getStagedModelType() {
+		return new StagedModelType(
+			PortalUtil.getClassNameId(LibraryStore.class.getName()));
+	}
+
+	@Override
+	public boolean isApproved() {
+		if (getStatus() == WorkflowConstants.STATUS_APPROVED) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isDenied() {
+		if (getStatus() == WorkflowConstants.STATUS_DENIED) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isDraft() {
+		if (getStatus() == WorkflowConstants.STATUS_DRAFT) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isExpired() {
+		if (getStatus() == WorkflowConstants.STATUS_EXPIRED) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isInactive() {
+		if (getStatus() == WorkflowConstants.STATUS_INACTIVE) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isIncomplete() {
+		if (getStatus() == WorkflowConstants.STATUS_INCOMPLETE) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isPending() {
+		if (getStatus() == WorkflowConstants.STATUS_PENDING) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isScheduled() {
+		if (getStatus() == WorkflowConstants.STATUS_SCHEDULED) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -437,7 +833,7 @@ public class LibraryStoreModelImpl
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return ExpandoBridgeFactoryUtil.getExpandoBridge(
-			0, LibraryStore.class.getName(), getPrimaryKey());
+			getCompanyId(), LibraryStore.class.getName(), getPrimaryKey());
 	}
 
 	@Override
@@ -466,14 +862,24 @@ public class LibraryStoreModelImpl
 	public Object clone() {
 		LibraryStoreImpl libraryStoreImpl = new LibraryStoreImpl();
 
+		libraryStoreImpl.setUuid(getUuid());
 		libraryStoreImpl.setLmsID(getLmsID());
 		libraryStoreImpl.setBookname(getBookname());
 		libraryStoreImpl.setIssueDate(getIssueDate());
 		libraryStoreImpl.setUploadedBy(getUploadedBy());
 		libraryStoreImpl.setIssueTo(getIssueTo());
+		libraryStoreImpl.setAuthorName(getAuthorName());
 		libraryStoreImpl.setGroupId(getGroupId());
-		libraryStoreImpl.setComapnyId(getComapnyId());
+		libraryStoreImpl.setCompanyId(getCompanyId());
 		libraryStoreImpl.setUserId(getUserId());
+		libraryStoreImpl.setUserName(getUserName());
+		libraryStoreImpl.setCreateDate(getCreateDate());
+		libraryStoreImpl.setCreatedDate(getCreatedDate());
+		libraryStoreImpl.setModifiedDate(getModifiedDate());
+		libraryStoreImpl.setStatus(getStatus());
+		libraryStoreImpl.setStatusByUserId(getStatusByUserId());
+		libraryStoreImpl.setStatusByUserName(getStatusByUserName());
+		libraryStoreImpl.setStatusDate(getStatusDate());
 
 		libraryStoreImpl.resetOriginalValues();
 
@@ -536,6 +942,8 @@ public class LibraryStoreModelImpl
 	public void resetOriginalValues() {
 		LibraryStoreModelImpl libraryStoreModelImpl = this;
 
+		libraryStoreModelImpl._originalUuid = libraryStoreModelImpl._uuid;
+
 		libraryStoreModelImpl._originalBookname =
 			libraryStoreModelImpl._bookname;
 
@@ -546,6 +954,13 @@ public class LibraryStoreModelImpl
 
 		libraryStoreModelImpl._setOriginalGroupId = false;
 
+		libraryStoreModelImpl._originalCompanyId =
+			libraryStoreModelImpl._companyId;
+
+		libraryStoreModelImpl._setOriginalCompanyId = false;
+
+		libraryStoreModelImpl._setModifiedDate = false;
+
 		libraryStoreModelImpl._columnBitmask = 0;
 	}
 
@@ -553,6 +968,14 @@ public class LibraryStoreModelImpl
 	public CacheModel<LibraryStore> toCacheModel() {
 		LibraryStoreCacheModel libraryStoreCacheModel =
 			new LibraryStoreCacheModel();
+
+		libraryStoreCacheModel.uuid = getUuid();
+
+		String uuid = libraryStoreCacheModel.uuid;
+
+		if ((uuid != null) && (uuid.length() == 0)) {
+			libraryStoreCacheModel.uuid = null;
+		}
 
 		libraryStoreCacheModel.lmsID = getLmsID();
 
@@ -588,11 +1011,75 @@ public class LibraryStoreModelImpl
 			libraryStoreCacheModel.issueTo = null;
 		}
 
+		libraryStoreCacheModel.authorName = getAuthorName();
+
+		String authorName = libraryStoreCacheModel.authorName;
+
+		if ((authorName != null) && (authorName.length() == 0)) {
+			libraryStoreCacheModel.authorName = null;
+		}
+
 		libraryStoreCacheModel.groupId = getGroupId();
 
-		libraryStoreCacheModel.comapnyId = getComapnyId();
+		libraryStoreCacheModel.companyId = getCompanyId();
 
 		libraryStoreCacheModel.userId = getUserId();
+
+		libraryStoreCacheModel.userName = getUserName();
+
+		String userName = libraryStoreCacheModel.userName;
+
+		if ((userName != null) && (userName.length() == 0)) {
+			libraryStoreCacheModel.userName = null;
+		}
+
+		Date createDate = getCreateDate();
+
+		if (createDate != null) {
+			libraryStoreCacheModel.createDate = createDate.getTime();
+		}
+		else {
+			libraryStoreCacheModel.createDate = Long.MIN_VALUE;
+		}
+
+		Date createdDate = getCreatedDate();
+
+		if (createdDate != null) {
+			libraryStoreCacheModel.createdDate = createdDate.getTime();
+		}
+		else {
+			libraryStoreCacheModel.createdDate = Long.MIN_VALUE;
+		}
+
+		Date modifiedDate = getModifiedDate();
+
+		if (modifiedDate != null) {
+			libraryStoreCacheModel.modifiedDate = modifiedDate.getTime();
+		}
+		else {
+			libraryStoreCacheModel.modifiedDate = Long.MIN_VALUE;
+		}
+
+		libraryStoreCacheModel.status = getStatus();
+
+		libraryStoreCacheModel.statusByUserId = getStatusByUserId();
+
+		libraryStoreCacheModel.statusByUserName = getStatusByUserName();
+
+		String statusByUserName = libraryStoreCacheModel.statusByUserName;
+
+		if ((statusByUserName != null) && (statusByUserName.length() == 0)) {
+			libraryStoreCacheModel.statusByUserName = null;
+		}
+
+		Date statusDate = getStatusDate();
+
+		if (statusDate != null) {
+			libraryStoreCacheModel.statusDate = statusDate.getTime();
+		}
+		else {
+			libraryStoreCacheModel.statusDate = Long.MIN_VALUE;
+		}
 
 		return libraryStoreCacheModel;
 	}
@@ -670,6 +1157,8 @@ public class LibraryStoreModelImpl
 	private static boolean _entityCacheEnabled;
 	private static boolean _finderCacheEnabled;
 
+	private String _uuid;
+	private String _originalUuid;
 	private long _lmsID;
 	private String _bookname;
 	private String _originalBookname;
@@ -677,11 +1166,23 @@ public class LibraryStoreModelImpl
 	private String _originalIssueDate;
 	private String _uploadedBy;
 	private String _issueTo;
+	private String _authorName;
 	private long _groupId;
 	private long _originalGroupId;
 	private boolean _setOriginalGroupId;
-	private long _comapnyId;
+	private long _companyId;
+	private long _originalCompanyId;
+	private boolean _setOriginalCompanyId;
 	private long _userId;
+	private String _userName;
+	private Date _createDate;
+	private Date _createdDate;
+	private Date _modifiedDate;
+	private boolean _setModifiedDate;
+	private int _status;
+	private long _statusByUserId;
+	private String _statusByUserName;
+	private Date _statusDate;
 	private long _columnBitmask;
 	private LibraryStore _escapedModel;
 

@@ -1,0 +1,89 @@
+package com.prefrences.portlet;
+
+import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.PortletPreferences;
+import com.liferay.portal.kernel.portlet.ConfigurationAction;
+import com.liferay.portal.kernel.portlet.DefaultConfigurationAction;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.WebKeys;
+import com.prefrences.constants.MyPortletPrefrencePortletKeys;
+
+import java.util.Map;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletConfig;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ConfigurationPolicy;
+import org.osgi.service.component.annotations.Modified;
+
+
+@Component(immediate = true, 
+		configurationPid = "com.prefrences.portlet.EditConfig", configurationPolicy = ConfigurationPolicy.OPTIONAL, property = {
+				"javax.portlet.name="
+						+ MyPortletPrefrencePortletKeys.MYPORTLETPREFRENCE }, service = ConfigurationAction.class)
+public class EditConfigAction extends DefaultConfigurationAction {
+	
+	private static final Log _log = LogFactoryUtil.getLog(
+			EditConfigAction.class);
+
+	private volatile EditConfig _editConfig;
+		
+		
+	@Override
+	public void include(
+			PortletConfig portletConfig, HttpServletRequest httpServletRequest,
+			HttpServletResponse httpServletResponse)
+		throws Exception {
+
+		if (_log.isInfoEnabled()) {
+			_log.info("Blade Message Portlet configuration include");
+		}
+
+		httpServletRequest.setAttribute(
+				EditConfig.class.getName(),
+			_editConfig);
+
+		super.include(portletConfig, httpServletRequest, httpServletResponse);
+	}
+
+	
+	
+	@Override
+	public void processAction(
+			PortletConfig portletConfig, ActionRequest actionRequest,
+			ActionResponse actionResponse)
+		throws Exception {
+
+		if (_log.isInfoEnabled()) {
+			_log.info("Blade Message Portlet configuration action");
+		}
+		
+		String fontColor = ParamUtil.getString(actionRequest, "colorName");
+		
+
+		if (_log.isInfoEnabled()) {
+						_log.info(
+				"Message Display Configuration: Font Color: " + fontColor);
+		}
+
+		setPreference(actionRequest, "colorName", fontColor);
+
+		super.processAction(portletConfig, actionRequest, actionResponse);
+	}
+
+	@Activate
+	@Modified
+	protected void activate(Map<Object, Object> properties) {
+		_editConfig = ConfigurableUtil.createConfigurable(
+				EditConfig.class, properties);
+	}
+
+	
+}

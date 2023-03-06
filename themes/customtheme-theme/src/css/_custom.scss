@@ -1,0 +1,54 @@
+/* These inject tags are used for dynamically creating imports for themelet styles, you can place them where ever you like in this file. */
+
+/* inject:imports */
+
+@import 'liferay-font-awesome/scss/font-awesome';
+@import 'liferay-font-awesome/scss/glyphicons';
+
+.content{
+  width: 450px;
+  height: auto;
+  margin: 0 auto;
+  padding: 30px;
+}
+#navigation{
+  width: 450px;
+  background-color:yellow;
+}
+
+#navigation .nav-link{
+  font-weight: bold;
+  padding-top: 13px;
+  text-align: center;
+  background: #343436;
+  color: #fff;
+  border-radius: 30px;
+  height: 100px;
+}
+#navigation .nav-link.active{
+  background: #fff;
+  color: #000;
+}
+#navigation{
+  position: absolute;
+  width: 450px;
+  height: auto;
+  margin-top: -50px;
+  background: #fff;
+  color: #000;
+  border-radius: 30px;
+  z-index: 1000;
+  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.4);
+  padding: 30px;
+  margin-bottom: 50px;
+}
+#navigation button{
+  border-radius: 15px;
+  width: 100px;
+  margin: 0 auto;
+  float: right;
+}
+
+/* endinject */
+
+/* This file allows you to override default styles in one central location for easier upgrade and maintenance. */

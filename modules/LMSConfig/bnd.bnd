@@ -1,0 +1,4 @@
+Bundle-Name: LMSConfig
+Bundle-SymbolicName: com.lms.panel
+Bundle-Version: 1.0.0
+Export-Package: com.lms.panel.constants

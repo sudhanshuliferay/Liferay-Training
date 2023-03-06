@@ -1,0 +1,5 @@
+Bundle-Activator: com.modal.hook.BundleActivator
+Bundle-Name: UserModelListHook
+Bundle-SymbolicName: UserModelListHook
+Bundle-Version: 1.0.0
+Export-Package: UserModelListHook.constants

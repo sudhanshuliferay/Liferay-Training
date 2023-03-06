@@ -1,0 +1,4 @@
+Bundle-Name: RoleServiceWrapperHook
+Bundle-SymbolicName: com.role.sw.hook
+Bundle-Version: 1.0.0
+Export-Package: com.role.sw.hook.constants

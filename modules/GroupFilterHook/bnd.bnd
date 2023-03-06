@@ -1,0 +1,4 @@
+Bundle-Name: GroupFilterHook
+Bundle-SymbolicName: com.filter.hook
+Bundle-Version: 1.0.0
+Export-Package: com.filter.hook.constants

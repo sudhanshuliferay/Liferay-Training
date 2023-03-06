@@ -19,7 +19,7 @@
 	String backurl=ParamUtil.getString(renderRequest, "backurl");
 %>
 
-<portlet:actionURL name="saveBookEntry" var="saveBookUrl">
+<portlet:actionURL name="/addEntry" var="saveBookUrl">
 	<portlet:param name="mvcPath" value="/editEntry.jsp"/>
 </portlet:actionURL>
 

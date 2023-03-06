@@ -1,4 +1,6 @@
 Bundle-Name: LMS
 Bundle-SymbolicName: com.lms
 Bundle-Version: 1.0.0
-Export-Package: com.lms.constants
+Export-Package: \
+	com.lms.constants
+	

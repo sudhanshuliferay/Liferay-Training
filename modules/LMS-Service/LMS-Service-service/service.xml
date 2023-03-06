@@ -4,17 +4,29 @@
 <service-builder dependency-injector="ds" package-path="com.lms">
 	<namespace>LMS</namespace>
 	
-	<entity name="LibraryStore" local-service="true" remote-service="false">
+	<entity name="LibraryStore" local-service="true" uuid="true" remote-service="true">
 		<column type="long" name="lmsID" primary="true"/>
 		<column type="String" name="bookname" />
 		<column type="String" name="issueDate" />
 		<column type="String" name="uploadedBy" />
 		<column type="String" name="issueTo" />
+		<column type="String" name="authorName"/>
 		
 		<!-- forign key -->
 		<column type="long" name="groupId" />
-		<column type="long" name="comapnyId" />
+		<column type="long" name="companyId" />
 		<column type="long" name="userId" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		
+		<column type="Date" name="createdDate" />
+		<column type="Date" name="modifiedDate" />
+		
+		<!-- Workflow Status fields -->
+		<column name="status" type="int"/>
+        <column name="statusByUserId" type="long"/>
+        <column name="statusByUserName" type="String"/>
+        <column name="statusDate" type="Date"/>
 		
 		<order by="desc">
 			<order-column name="issueDate"/>
@@ -30,14 +42,16 @@
 				<finder-column name="groupId" />
 		</finder>
 		
-		<reference entity="BlogsEntry" package-path="com.liferay.blogs"/>
+		<!-- WorkFlow related refrences -->
+		<reference package-path="com.liferay.portlet.asset" entity="AssetEntry"/>
+        <reference package-path="com.liferay.portlet.asset" entity="AssetLink"/>
+        <reference entity="WorkflowInstanceLink" package-path="com.liferay.portal" />
 		
 	</entity>
 	
 	
 	<exceptions>
 		<exception>NoBookAssignException</exception>
-	
 	</exceptions>
 	
 </service-builder>

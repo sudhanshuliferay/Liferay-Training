@@ -17,8 +17,7 @@
     <portlet:renderURL var="editURL">
         <portlet:param name="lmsId"
             value="<%=String.valueOf(libraryStore.getLmsID()) %>" />
-        <portlet:param name="mvcPath"
-            value="/editEntry.jsp" />
+       <portlet:param name="mvcRenderCommandName" value="/lms/editEntry"/>
             <portlet:param name="backurl"
             value="<%=themeDisplay.getURLCurrent()%>" />
     </portlet:renderURL>
@@ -30,6 +29,18 @@
             <portlet:param name="lmsId"
                 value="<%= String.valueOf(libraryStore.getLmsID()) %>" />
     </portlet:actionURL>
+
+	<c:if test="<%=LMSPermission.contains(permissionChecker, libraryStore.getLmsID(), ActionKeys.PERMISSIONS) %>">
+
+	    <liferay-security:permissionsURL
+	        modelResource="<%= LibraryStore.class.getName() %>"
+	        modelResourceDescription="<%= libraryStore.getBookname() %>"
+	        resourcePrimKey="<%= String.valueOf(libraryStore.getLmsID()) %>"
+	        var="permissionsURL" />
+	
+	    <liferay-ui:icon image="permissions" url="<%= permissionsURL %>" />
+
+	</c:if>
 
     <liferay-ui:icon-delete image="delete"  url="<%=deleteURL.toString() %>" />
 	

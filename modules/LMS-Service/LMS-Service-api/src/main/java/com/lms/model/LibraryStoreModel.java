@@ -16,6 +16,12 @@ package com.lms.model;
 
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
+import com.liferay.portal.kernel.model.GroupedModel;
+import com.liferay.portal.kernel.model.ShardedModel;
+import com.liferay.portal.kernel.model.StagedAuditedModel;
+import com.liferay.portal.kernel.model.WorkflowedModel;
+
+import java.util.Date;
 
 import org.osgi.annotation.versioning.ProviderType;
 
@@ -31,7 +37,9 @@ import org.osgi.annotation.versioning.ProviderType;
  * @generated
  */
 @ProviderType
-public interface LibraryStoreModel extends BaseModel<LibraryStore> {
+public interface LibraryStoreModel
+	extends BaseModel<LibraryStore>, GroupedModel, ShardedModel,
+			StagedAuditedModel, WorkflowedModel {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -52,6 +60,23 @@ public interface LibraryStoreModel extends BaseModel<LibraryStore> {
 	 * @param primaryKey the primary key of this library store
 	 */
 	public void setPrimaryKey(long primaryKey);
+
+	/**
+	 * Returns the uuid of this library store.
+	 *
+	 * @return the uuid of this library store
+	 */
+	@AutoEscape
+	@Override
+	public String getUuid();
+
+	/**
+	 * Sets the uuid of this library store.
+	 *
+	 * @param uuid the uuid of this library store
+	 */
+	@Override
+	public void setUuid(String uuid);
 
 	/**
 	 * Returns the lms ID of this library store.
@@ -128,10 +153,26 @@ public interface LibraryStoreModel extends BaseModel<LibraryStore> {
 	public void setIssueTo(String issueTo);
 
 	/**
+	 * Returns the author name of this library store.
+	 *
+	 * @return the author name of this library store
+	 */
+	@AutoEscape
+	public String getAuthorName();
+
+	/**
+	 * Sets the author name of this library store.
+	 *
+	 * @param authorName the author name of this library store
+	 */
+	public void setAuthorName(String authorName);
+
+	/**
 	 * Returns the group ID of this library store.
 	 *
 	 * @return the group ID of this library store
 	 */
+	@Override
 	public long getGroupId();
 
 	/**
@@ -139,27 +180,31 @@ public interface LibraryStoreModel extends BaseModel<LibraryStore> {
 	 *
 	 * @param groupId the group ID of this library store
 	 */
+	@Override
 	public void setGroupId(long groupId);
 
 	/**
-	 * Returns the comapny ID of this library store.
+	 * Returns the company ID of this library store.
 	 *
-	 * @return the comapny ID of this library store
+	 * @return the company ID of this library store
 	 */
-	public long getComapnyId();
+	@Override
+	public long getCompanyId();
 
 	/**
-	 * Sets the comapny ID of this library store.
+	 * Sets the company ID of this library store.
 	 *
-	 * @param comapnyId the comapny ID of this library store
+	 * @param companyId the company ID of this library store
 	 */
-	public void setComapnyId(long comapnyId);
+	@Override
+	public void setCompanyId(long companyId);
 
 	/**
 	 * Returns the user ID of this library store.
 	 *
 	 * @return the user ID of this library store
 	 */
+	@Override
 	public long getUserId();
 
 	/**
@@ -167,6 +212,7 @@ public interface LibraryStoreModel extends BaseModel<LibraryStore> {
 	 *
 	 * @param userId the user ID of this library store
 	 */
+	@Override
 	public void setUserId(long userId);
 
 	/**
@@ -174,6 +220,7 @@ public interface LibraryStoreModel extends BaseModel<LibraryStore> {
 	 *
 	 * @return the user uuid of this library store
 	 */
+	@Override
 	public String getUserUuid();
 
 	/**
@@ -181,6 +228,215 @@ public interface LibraryStoreModel extends BaseModel<LibraryStore> {
 	 *
 	 * @param userUuid the user uuid of this library store
 	 */
+	@Override
 	public void setUserUuid(String userUuid);
+
+	/**
+	 * Returns the user name of this library store.
+	 *
+	 * @return the user name of this library store
+	 */
+	@AutoEscape
+	@Override
+	public String getUserName();
+
+	/**
+	 * Sets the user name of this library store.
+	 *
+	 * @param userName the user name of this library store
+	 */
+	@Override
+	public void setUserName(String userName);
+
+	/**
+	 * Returns the create date of this library store.
+	 *
+	 * @return the create date of this library store
+	 */
+	@Override
+	public Date getCreateDate();
+
+	/**
+	 * Sets the create date of this library store.
+	 *
+	 * @param createDate the create date of this library store
+	 */
+	@Override
+	public void setCreateDate(Date createDate);
+
+	/**
+	 * Returns the created date of this library store.
+	 *
+	 * @return the created date of this library store
+	 */
+	public Date getCreatedDate();
+
+	/**
+	 * Sets the created date of this library store.
+	 *
+	 * @param createdDate the created date of this library store
+	 */
+	public void setCreatedDate(Date createdDate);
+
+	/**
+	 * Returns the modified date of this library store.
+	 *
+	 * @return the modified date of this library store
+	 */
+	@Override
+	public Date getModifiedDate();
+
+	/**
+	 * Sets the modified date of this library store.
+	 *
+	 * @param modifiedDate the modified date of this library store
+	 */
+	@Override
+	public void setModifiedDate(Date modifiedDate);
+
+	/**
+	 * Returns the status of this library store.
+	 *
+	 * @return the status of this library store
+	 */
+	@Override
+	public int getStatus();
+
+	/**
+	 * Sets the status of this library store.
+	 *
+	 * @param status the status of this library store
+	 */
+	@Override
+	public void setStatus(int status);
+
+	/**
+	 * Returns the status by user ID of this library store.
+	 *
+	 * @return the status by user ID of this library store
+	 */
+	@Override
+	public long getStatusByUserId();
+
+	/**
+	 * Sets the status by user ID of this library store.
+	 *
+	 * @param statusByUserId the status by user ID of this library store
+	 */
+	@Override
+	public void setStatusByUserId(long statusByUserId);
+
+	/**
+	 * Returns the status by user uuid of this library store.
+	 *
+	 * @return the status by user uuid of this library store
+	 */
+	@Override
+	public String getStatusByUserUuid();
+
+	/**
+	 * Sets the status by user uuid of this library store.
+	 *
+	 * @param statusByUserUuid the status by user uuid of this library store
+	 */
+	@Override
+	public void setStatusByUserUuid(String statusByUserUuid);
+
+	/**
+	 * Returns the status by user name of this library store.
+	 *
+	 * @return the status by user name of this library store
+	 */
+	@AutoEscape
+	@Override
+	public String getStatusByUserName();
+
+	/**
+	 * Sets the status by user name of this library store.
+	 *
+	 * @param statusByUserName the status by user name of this library store
+	 */
+	@Override
+	public void setStatusByUserName(String statusByUserName);
+
+	/**
+	 * Returns the status date of this library store.
+	 *
+	 * @return the status date of this library store
+	 */
+	@Override
+	public Date getStatusDate();
+
+	/**
+	 * Sets the status date of this library store.
+	 *
+	 * @param statusDate the status date of this library store
+	 */
+	@Override
+	public void setStatusDate(Date statusDate);
+
+	/**
+	 * Returns <code>true</code> if this library store is approved.
+	 *
+	 * @return <code>true</code> if this library store is approved; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isApproved();
+
+	/**
+	 * Returns <code>true</code> if this library store is denied.
+	 *
+	 * @return <code>true</code> if this library store is denied; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isDenied();
+
+	/**
+	 * Returns <code>true</code> if this library store is a draft.
+	 *
+	 * @return <code>true</code> if this library store is a draft; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isDraft();
+
+	/**
+	 * Returns <code>true</code> if this library store is expired.
+	 *
+	 * @return <code>true</code> if this library store is expired; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isExpired();
+
+	/**
+	 * Returns <code>true</code> if this library store is inactive.
+	 *
+	 * @return <code>true</code> if this library store is inactive; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isInactive();
+
+	/**
+	 * Returns <code>true</code> if this library store is incomplete.
+	 *
+	 * @return <code>true</code> if this library store is incomplete; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isIncomplete();
+
+	/**
+	 * Returns <code>true</code> if this library store is pending.
+	 *
+	 * @return <code>true</code> if this library store is pending; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isPending();
+
+	/**
+	 * Returns <code>true</code> if this library store is scheduled.
+	 *
+	 * @return <code>true</code> if this library store is scheduled; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isScheduled();
 
 }

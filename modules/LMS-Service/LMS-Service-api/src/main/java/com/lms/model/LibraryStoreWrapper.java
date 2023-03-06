@@ -14,9 +14,11 @@
 
 package com.lms.model;
 
+import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,20 +43,36 @@ public class LibraryStoreWrapper
 	public Map<String, Object> getModelAttributes() {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
+		attributes.put("uuid", getUuid());
 		attributes.put("lmsID", getLmsID());
 		attributes.put("bookname", getBookname());
 		attributes.put("issueDate", getIssueDate());
 		attributes.put("uploadedBy", getUploadedBy());
 		attributes.put("issueTo", getIssueTo());
+		attributes.put("authorName", getAuthorName());
 		attributes.put("groupId", getGroupId());
-		attributes.put("comapnyId", getComapnyId());
+		attributes.put("companyId", getCompanyId());
 		attributes.put("userId", getUserId());
+		attributes.put("userName", getUserName());
+		attributes.put("createDate", getCreateDate());
+		attributes.put("createdDate", getCreatedDate());
+		attributes.put("modifiedDate", getModifiedDate());
+		attributes.put("status", getStatus());
+		attributes.put("statusByUserId", getStatusByUserId());
+		attributes.put("statusByUserName", getStatusByUserName());
+		attributes.put("statusDate", getStatusDate());
 
 		return attributes;
 	}
 
 	@Override
 	public void setModelAttributes(Map<String, Object> attributes) {
+		String uuid = (String)attributes.get("uuid");
+
+		if (uuid != null) {
+			setUuid(uuid);
+		}
+
 		Long lmsID = (Long)attributes.get("lmsID");
 
 		if (lmsID != null) {
@@ -85,16 +103,22 @@ public class LibraryStoreWrapper
 			setIssueTo(issueTo);
 		}
 
+		String authorName = (String)attributes.get("authorName");
+
+		if (authorName != null) {
+			setAuthorName(authorName);
+		}
+
 		Long groupId = (Long)attributes.get("groupId");
 
 		if (groupId != null) {
 			setGroupId(groupId);
 		}
 
-		Long comapnyId = (Long)attributes.get("comapnyId");
+		Long companyId = (Long)attributes.get("companyId");
 
-		if (comapnyId != null) {
-			setComapnyId(comapnyId);
+		if (companyId != null) {
+			setCompanyId(companyId);
 		}
 
 		Long userId = (Long)attributes.get("userId");
@@ -102,6 +126,64 @@ public class LibraryStoreWrapper
 		if (userId != null) {
 			setUserId(userId);
 		}
+
+		String userName = (String)attributes.get("userName");
+
+		if (userName != null) {
+			setUserName(userName);
+		}
+
+		Date createDate = (Date)attributes.get("createDate");
+
+		if (createDate != null) {
+			setCreateDate(createDate);
+		}
+
+		Date createdDate = (Date)attributes.get("createdDate");
+
+		if (createdDate != null) {
+			setCreatedDate(createdDate);
+		}
+
+		Date modifiedDate = (Date)attributes.get("modifiedDate");
+
+		if (modifiedDate != null) {
+			setModifiedDate(modifiedDate);
+		}
+
+		Integer status = (Integer)attributes.get("status");
+
+		if (status != null) {
+			setStatus(status);
+		}
+
+		Long statusByUserId = (Long)attributes.get("statusByUserId");
+
+		if (statusByUserId != null) {
+			setStatusByUserId(statusByUserId);
+		}
+
+		String statusByUserName = (String)attributes.get("statusByUserName");
+
+		if (statusByUserName != null) {
+			setStatusByUserName(statusByUserName);
+		}
+
+		Date statusDate = (Date)attributes.get("statusDate");
+
+		if (statusDate != null) {
+			setStatusDate(statusDate);
+		}
+	}
+
+	/**
+	 * Returns the author name of this library store.
+	 *
+	 * @return the author name of this library store
+	 */
+	@Override
+	public String getAuthorName() {
+		return model.getAuthorName();
 	}
 
 	/**
@@ -115,13 +197,33 @@ public class LibraryStoreWrapper
 	}
 
 	/**
-	 * Returns the comapny ID of this library store.
+	 * Returns the company ID of this library store.
 	 *
-	 * @return the comapny ID of this library store
+	 * @return the company ID of this library store
 	 */
 	@Override
-	public long getComapnyId() {
-		return model.getComapnyId();
+	public long getCompanyId() {
+		return model.getCompanyId();
+	}
+
+	/**
+	 * Returns the create date of this library store.
+	 *
+	 * @return the create date of this library store
+	 */
+	@Override
+	public Date getCreateDate() {
+		return model.getCreateDate();
+	}
+
+	/**
+	 * Returns the created date of this library store.
+	 *
+	 * @return the created date of this library store
+	 */
+	@Override
+	public Date getCreatedDate() {
+		return model.getCreatedDate();
 	}
 
 	/**
@@ -165,6 +267,16 @@ public class LibraryStoreWrapper
 	}
 
 	/**
+	 * Returns the modified date of this library store.
+	 *
+	 * @return the modified date of this library store
+	 */
+	@Override
+	public Date getModifiedDate() {
+		return model.getModifiedDate();
+	}
+
+	/**
 	 * Returns the primary key of this library store.
 	 *
 	 * @return the primary key of this library store
@@ -172,6 +284,56 @@ public class LibraryStoreWrapper
 	@Override
 	public long getPrimaryKey() {
 		return model.getPrimaryKey();
+	}
+
+	/**
+	 * Returns the status of this library store.
+	 *
+	 * @return the status of this library store
+	 */
+	@Override
+	public int getStatus() {
+		return model.getStatus();
+	}
+
+	/**
+	 * Returns the status by user ID of this library store.
+	 *
+	 * @return the status by user ID of this library store
+	 */
+	@Override
+	public long getStatusByUserId() {
+		return model.getStatusByUserId();
+	}
+
+	/**
+	 * Returns the status by user name of this library store.
+	 *
+	 * @return the status by user name of this library store
+	 */
+	@Override
+	public String getStatusByUserName() {
+		return model.getStatusByUserName();
+	}
+
+	/**
+	 * Returns the status by user uuid of this library store.
+	 *
+	 * @return the status by user uuid of this library store
+	 */
+	@Override
+	public String getStatusByUserUuid() {
+		return model.getStatusByUserUuid();
+	}
+
+	/**
+	 * Returns the status date of this library store.
+	 *
+	 * @return the status date of this library store
+	 */
+	@Override
+	public Date getStatusDate() {
+		return model.getStatusDate();
 	}
 
 	/**
@@ -195,6 +357,16 @@ public class LibraryStoreWrapper
 	}
 
 	/**
+	 * Returns the user name of this library store.
+	 *
+	 * @return the user name of this library store
+	 */
+	@Override
+	public String getUserName() {
+		return model.getUserName();
+	}
+
+	/**
 	 * Returns the user uuid of this library store.
 	 *
 	 * @return the user uuid of this library store
@@ -204,9 +376,109 @@ public class LibraryStoreWrapper
 		return model.getUserUuid();
 	}
 
+	/**
+	 * Returns the uuid of this library store.
+	 *
+	 * @return the uuid of this library store
+	 */
+	@Override
+	public String getUuid() {
+		return model.getUuid();
+	}
+
+	/**
+	 * Returns <code>true</code> if this library store is approved.
+	 *
+	 * @return <code>true</code> if this library store is approved; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isApproved() {
+		return model.isApproved();
+	}
+
+	/**
+	 * Returns <code>true</code> if this library store is denied.
+	 *
+	 * @return <code>true</code> if this library store is denied; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isDenied() {
+		return model.isDenied();
+	}
+
+	/**
+	 * Returns <code>true</code> if this library store is a draft.
+	 *
+	 * @return <code>true</code> if this library store is a draft; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isDraft() {
+		return model.isDraft();
+	}
+
+	/**
+	 * Returns <code>true</code> if this library store is expired.
+	 *
+	 * @return <code>true</code> if this library store is expired; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isExpired() {
+		return model.isExpired();
+	}
+
+	/**
+	 * Returns <code>true</code> if this library store is inactive.
+	 *
+	 * @return <code>true</code> if this library store is inactive; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isInactive() {
+		return model.isInactive();
+	}
+
+	/**
+	 * Returns <code>true</code> if this library store is incomplete.
+	 *
+	 * @return <code>true</code> if this library store is incomplete; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isIncomplete() {
+		return model.isIncomplete();
+	}
+
+	/**
+	 * Returns <code>true</code> if this library store is pending.
+	 *
+	 * @return <code>true</code> if this library store is pending; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isPending() {
+		return model.isPending();
+	}
+
+	/**
+	 * Returns <code>true</code> if this library store is scheduled.
+	 *
+	 * @return <code>true</code> if this library store is scheduled; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isScheduled() {
+		return model.isScheduled();
+	}
+
 	@Override
 	public void persist() {
 		model.persist();
+	}
+
+	/**
+	 * Sets the author name of this library store.
+	 *
+	 * @param authorName the author name of this library store
+	 */
+	@Override
+	public void setAuthorName(String authorName) {
+		model.setAuthorName(authorName);
 	}
 
 	/**
@@ -220,13 +492,33 @@ public class LibraryStoreWrapper
 	}
 
 	/**
-	 * Sets the comapny ID of this library store.
+	 * Sets the company ID of this library store.
 	 *
-	 * @param comapnyId the comapny ID of this library store
+	 * @param companyId the company ID of this library store
 	 */
 	@Override
-	public void setComapnyId(long comapnyId) {
-		model.setComapnyId(comapnyId);
+	public void setCompanyId(long companyId) {
+		model.setCompanyId(companyId);
+	}
+
+	/**
+	 * Sets the create date of this library store.
+	 *
+	 * @param createDate the create date of this library store
+	 */
+	@Override
+	public void setCreateDate(Date createDate) {
+		model.setCreateDate(createDate);
+	}
+
+	/**
+	 * Sets the created date of this library store.
+	 *
+	 * @param createdDate the created date of this library store
+	 */
+	@Override
+	public void setCreatedDate(Date createdDate) {
+		model.setCreatedDate(createdDate);
 	}
 
 	/**
@@ -270,6 +562,16 @@ public class LibraryStoreWrapper
 	}
 
 	/**
+	 * Sets the modified date of this library store.
+	 *
+	 * @param modifiedDate the modified date of this library store
+	 */
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		model.setModifiedDate(modifiedDate);
+	}
+
+	/**
 	 * Sets the primary key of this library store.
 	 *
 	 * @param primaryKey the primary key of this library store
@@ -277,6 +579,56 @@ public class LibraryStoreWrapper
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		model.setPrimaryKey(primaryKey);
+	}
+
+	/**
+	 * Sets the status of this library store.
+	 *
+	 * @param status the status of this library store
+	 */
+	@Override
+	public void setStatus(int status) {
+		model.setStatus(status);
+	}
+
+	/**
+	 * Sets the status by user ID of this library store.
+	 *
+	 * @param statusByUserId the status by user ID of this library store
+	 */
+	@Override
+	public void setStatusByUserId(long statusByUserId) {
+		model.setStatusByUserId(statusByUserId);
+	}
+
+	/**
+	 * Sets the status by user name of this library store.
+	 *
+	 * @param statusByUserName the status by user name of this library store
+	 */
+	@Override
+	public void setStatusByUserName(String statusByUserName) {
+		model.setStatusByUserName(statusByUserName);
+	}
+
+	/**
+	 * Sets the status by user uuid of this library store.
+	 *
+	 * @param statusByUserUuid the status by user uuid of this library store
+	 */
+	@Override
+	public void setStatusByUserUuid(String statusByUserUuid) {
+		model.setStatusByUserUuid(statusByUserUuid);
+	}
+
+	/**
+	 * Sets the status date of this library store.
+	 *
+	 * @param statusDate the status date of this library store
+	 */
+	@Override
+	public void setStatusDate(Date statusDate) {
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -300,6 +652,16 @@ public class LibraryStoreWrapper
 	}
 
 	/**
+	 * Sets the user name of this library store.
+	 *
+	 * @param userName the user name of this library store
+	 */
+	@Override
+	public void setUserName(String userName) {
+		model.setUserName(userName);
+	}
+
+	/**
 	 * Sets the user uuid of this library store.
 	 *
 	 * @param userUuid the user uuid of this library store
@@ -307,6 +669,21 @@ public class LibraryStoreWrapper
 	@Override
 	public void setUserUuid(String userUuid) {
 		model.setUserUuid(userUuid);
+	}
+
+	/**
+	 * Sets the uuid of this library store.
+	 *
+	 * @param uuid the uuid of this library store
+	 */
+	@Override
+	public void setUuid(String uuid) {
+		model.setUuid(uuid);
+	}
+
+	@Override
+	public StagedModelType getStagedModelType() {
+		return model.getStagedModelType();
 	}
 
 	@Override

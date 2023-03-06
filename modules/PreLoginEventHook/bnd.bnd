@@ -1,0 +1,4 @@
+Bundle-Name: PreLoginEventHook
+Bundle-SymbolicName: com.login.event
+Bundle-Version: 1.0.0
+Export-Package: com.login.event.constants
